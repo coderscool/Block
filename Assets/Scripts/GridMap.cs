@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridItem : MonoBehaviour
+public class GridMap : MonoBehaviour
 {
     public int columns = 0;
     public int rows = 0;
@@ -20,11 +19,22 @@ public class GridItem : MonoBehaviour
         CreateGrid();
     }
 
-    // Update is called once per frame
     private void CreateGrid()
     {
         SpawnGridSquares();
         SetGridSquaresPositions();
+    }
+
+    public List<RectTransform> GetAllSquares()
+    {
+        List<RectTransform> list = new List<RectTransform>();
+
+        foreach (var obj in _gridSquares)
+        {
+            list.Add(obj.GetComponent<RectTransform>());
+        }
+
+        return list;
     }
 
     private void SpawnGridSquares()
@@ -62,7 +72,6 @@ public class GridItem : MonoBehaviour
             {
                 square_gap_number.x = 0;
 
-                // go to the next column
                 column_number = 0;
                 row_number++;
                 row_moved = false;
