@@ -142,6 +142,28 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         return closest;
     }
 
+    private RectTransform GetClosestCellToPosition(Vector2 targetPosition)
+    {
+        float minDistance = float.MaxValue;
+        RectTransform closest = null;
+
+        foreach (var cell in cells)
+        {
+            if (cell == null) continue;
+
+            var cellRect = cell.GetComponent<RectTransform>();
+            float distance = Vector2.Distance(cellRect.position, targetPosition);
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closest = cellRect;
+            }
+        }
+
+        return closest;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
     }
@@ -179,6 +201,18 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
     public void OnEndDrag(PointerEventData eventData)
     {
         _transform.localScale = _shapeStartScale;
+
+        if (_grid == null || cells.Count == 0) return;
+
+        var closestSquare = GetClosestSquare();
+        if (closestSquare == null) return;
+
+        // Snap shape so one of its cells aligns exactly to nearest grid cell center.
+        var closestCell = GetClosestCellToPosition(closestSquare.position);
+        if (closestCell == null) return;
+
+        var snapDelta = (Vector2)closestSquare.position - (Vector2)closestCell.position;
+        _transform.position += (Vector3)snapDelta;
     }
 
     public void OnPointerDown(PointerEventData eventData)
