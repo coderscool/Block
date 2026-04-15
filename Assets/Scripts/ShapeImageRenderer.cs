@@ -11,8 +11,8 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
     public string parentId;
 
     [Header("Render")]
-    public GameObject cellPrefab;      
-    public Sprite[] imagePieces;      
+    public GameObject cellPrefab;
+    public Sprite[] imagePieces;
 
     [Header("Settings")]
     public float cellSize = 100f;
@@ -118,8 +118,8 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
                 rt.sizeDelta = new Vector2(cellSize, cellSize);
                 rt.localScale = Vector3.one;
 
-                rt.anchorMin = new Vector2(0.5f, 0.5f); 
-                rt.anchorMax = new Vector2(0.5f, 0.5f); 
+                rt.anchorMin = new Vector2(0.5f, 0.5f);
+                rt.anchorMax = new Vector2(0.5f, 0.5f);
                 rt.pivot = new Vector2(0.5f, 0.5f);
 
                 cells.Add(cell);
@@ -242,12 +242,10 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         var snapDelta = (Vector2)closestSquare.position - (Vector2)closestCell.position;
         _transform.position += (Vector3)snapDelta;
 
-        // 🔥 ADD LOGIC
         Vector2Int origin = _grid.GetGridPositionFromWorld(closestSquare.position);
 
         if (!_cellCoordByRect.TryGetValue(closestCell, out var pivotCoord))
         {
-            // Fallback: assume the snapped cell is the (0,0) cell.
             pivotCoord = Vector2Int.zero;
         }
 
