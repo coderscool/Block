@@ -14,29 +14,24 @@ public class GridMap : MonoBehaviour
     private Vector2 _offset = Vector2.zero;
     private List<GameObject> _gridSquares = new List<GameObject>();
 
-    // 🔥 DATA GRID
     private Block[,] gridData;
+    public LevelData level;
+
+    private Dictionary<Vector2Int, GameObject> gridDict = new Dictionary<Vector2Int, GameObject>();
 
     [System.Serializable]
     public class ShapeMatchPattern
     {
-        [Tooltip("Tên để dễ debug/nhìn trong Inspector.")]
         public string name;
-
-        [Tooltip("Danh sách offset (x,y) tính từ ô bắt đầu (startX,startY).")]
         public List<Vector2Int> offsets = new List<Vector2Int>();
-
-        [Tooltip("Số Block khác nhau phải phủ kín pattern này. Ví dụ 2 nghĩa là 2 khối ghép vừa khít.")]
         public int requiredUniqueBlocks = 2;
     }
 
-    [Header("Shape Match Patterns")]
-    [Tooltip("Các pattern cần match để xóa. Offsets tính theo grid (x sang phải, y xuống dưới).")]
     public List<ShapeMatchPattern> patterns = new List<ShapeMatchPattern>()
     {
         new ShapeMatchPattern()
         {
-            name = "3x2 (2 blocks)",
+            name = "3x2",
             requiredUniqueBlocks = 2,
             offsets = new List<Vector2Int>()
             {
@@ -46,120 +41,107 @@ public class GridMap : MonoBehaviour
         }
     };
 
-    void Start()
+    // ================= INIT =================
+
+    public void Init(LevelData level)
     {
-        CreateGrid();
+        columns = level.cols;
+        rows = level.rows;
+
         gridData = new Block[columns, rows];
+
+        CreateGrid(level);
     }
 
-    // ================= GRID CREATE =================
-
-    private void CreateGrid()
+    private void CreateGrid(LevelData level)
     {
-        SpawnGridSquares();
+        SpawnGridSquares(level);
         SetGridSquaresPositions();
     }
 
-    public List<RectTransform> GetAllSquares()
+    private void SpawnGridSquares(LevelData level)
     {
-        List<RectTransform> list = new List<RectTransform>();
-
-        foreach (var obj in _gridSquares)
-        {
-            list.Add(obj.GetComponent<RectTransform>());
-        }
-
-        return list;
-    }
-
-    private void SpawnGridSquares()
-    {
-        int square_index = 0;
+        int[,] map = level.GetMap();
 
         for (var row = 0; row < rows; ++row)
         {
             for (var column = 0; column < columns; ++column)
             {
+                if (map[row, column] == 0) continue;
+
                 var go = Instantiate(gridSquare);
                 go.transform.SetParent(this.transform);
                 go.transform.localScale = new Vector3(squareScale, squareScale, squareScale);
 
                 _gridSquares.Add(go);
-                square_index++;
+                gridDict[new Vector2Int(column, row)] = go;
             }
         }
     }
 
     private void SetGridSquaresPositions()
     {
-        int column_number = 0;
-        int row_number = 0;
-        Vector2 square_gap_number = Vector2.zero;
-        bool row_moved = false;
-
         var square_rect = _gridSquares[0].GetComponent<RectTransform>();
 
         _offset.x = square_rect.rect.width * square_rect.transform.localScale.x + everySquareOffset;
         _offset.y = square_rect.rect.height * square_rect.transform.localScale.y + everySquareOffset;
 
-        foreach (GameObject square in _gridSquares)
+        foreach (var kvp in gridDict)
         {
-            if (column_number + 1 > columns)
-            {
-                square_gap_number.x = 0;
-                column_number = 0;
-                row_number++;
-                row_moved = false;
-            }
+            int col = kvp.Key.x;
+            int row = kvp.Key.y;
 
-            var pos_x_offset = _offset.x * column_number + (square_gap_number.x * squaresGap);
-            var pos_y_offset = _offset.y * row_number + (square_gap_number.y * squaresGap);
+            var square = kvp.Value;
+
+            float pos_x = startPosition.x + col * (_offset.x + squaresGap);
+            float pos_y = startPosition.y - row * (_offset.y + squaresGap);
 
             square.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(startPosition.x + pos_x_offset,
-                            startPosition.y - pos_y_offset);
-
-            column_number++;
+                new Vector2(pos_x, pos_y);
         }
     }
 
-    // ================= LOGIC =================
+    // ================= FIX CHÍNH Ở ĐÂY =================
 
     public Vector2Int GetGridPositionFromWorld(Vector3 worldPos)
     {
         float minDistance = float.MaxValue;
-        int bestIndex = -1;
+        Vector2Int bestPos = new Vector2Int(-1, -1);
 
-        for (int i = 0; i < _gridSquares.Count; i++)
+        foreach (var kvp in gridDict)
         {
-            float dist = Vector2.Distance(worldPos, _gridSquares[i].GetComponent<RectTransform>().position);
+            float dist = Vector2.Distance(
+                worldPos,
+                kvp.Value.GetComponent<RectTransform>().position
+            );
 
             if (dist < minDistance)
             {
                 minDistance = dist;
-                bestIndex = i;
+                bestPos = kvp.Key;
             }
         }
 
-        int x = bestIndex % columns;
-        int y = bestIndex / columns;
-
-        return new Vector2Int(x, y);
+        return bestPos;
     }
+
+    // ================= PLACE =================
 
     public void PlaceBlock(Block block)
     {
-        // check hợp lệ
         foreach (var cell in block.cells)
         {
             int x = block.origin.x + cell.x;
             int y = block.origin.y + cell.y;
 
             if (!IsInside(x, y)) return;
+
+            // 🔥 FIX MAP KHUYẾT
+            if (!gridDict.ContainsKey(new Vector2Int(x, y))) return;
+
             if (gridData[x, y] != null) return;
         }
 
-        // place
         foreach (var cell in block.cells)
         {
             int x = block.origin.x + cell.x;
@@ -171,14 +153,12 @@ public class GridMap : MonoBehaviour
         CheckPattern();
     }
 
+    // ================= MATCH =================
+
     void CheckPattern()
     {
-        if (patterns == null || patterns.Count == 0) return;
-
         foreach (var pattern in patterns)
         {
-            if (pattern == null || pattern.offsets == null || pattern.offsets.Count == 0) continue;
-
             for (int x = 0; x < columns; x++)
             {
                 for (int y = 0; y < rows; y++)
@@ -202,31 +182,27 @@ public class GridMap : MonoBehaviour
             int y = startY + offset.y;
 
             if (!IsInside(x, y)) return false;
+
+            // 🔥 FIX MAP KHUYẾT
+            if (!gridDict.ContainsKey(new Vector2Int(x, y)))
+                return false;
+
             if (gridData[x, y] == null) return false;
 
             blocks.Add(gridData[x, y]);
         }
 
-        if (blocks.Count != Mathf.Max(1, pattern.requiredUniqueBlocks)) return false;
+        if (blocks.Count != Mathf.Max(1, pattern.requiredUniqueBlocks))
+            return false;
 
-        string expectedParentId = null;
-        foreach (var block in blocks)
+        string id = null;
+        foreach (var b in blocks)
         {
-            if (block == null || string.IsNullOrWhiteSpace(block.parentId))
-            {
+            if (b == null || string.IsNullOrEmpty(b.parentId))
                 return false;
-            }
 
-            if (expectedParentId == null)
-            {
-                expectedParentId = block.parentId;
-                continue;
-            }
-
-            if (!string.Equals(expectedParentId, block.parentId, System.StringComparison.Ordinal))
-            {
-                return false;
-            }
+            if (id == null) id = b.parentId;
+            else if (id != b.parentId) return false;
         }
 
         return true;
@@ -241,8 +217,11 @@ public class GridMap : MonoBehaviour
             int x = startX + offset.x;
             int y = startY + offset.y;
 
-            blocks.Add(gridData[x, y]);
-            gridData[x, y] = null;
+            if (gridData[x, y] != null)
+            {
+                blocks.Add(gridData[x, y]);
+                gridData[x, y] = null;
+            }
         }
 
         foreach (var b in blocks)
@@ -254,5 +233,17 @@ public class GridMap : MonoBehaviour
     bool IsInside(int x, int y)
     {
         return x >= 0 && x < columns && y >= 0 && y < rows;
+    }
+
+    public List<RectTransform> GetAllSquares()
+    {
+        List<RectTransform> list = new List<RectTransform>();
+
+        foreach (var kvp in gridDict)
+        {
+            list.Add(kvp.Value.GetComponent<RectTransform>());
+        }
+
+        return list;
     }
 }
