@@ -17,16 +17,33 @@ public class GridMap : MonoBehaviour
     // 🔥 DATA GRID
     private Block[,] gridData;
 
-    // 🎯 SHAPE MATCH (2 block L → 2x3)
-    private List<Vector2Int> targetShape = new List<Vector2Int>()
+    [System.Serializable]
+    public class ShapeMatchPattern
     {
-        new Vector2Int(0,0),
-    new Vector2Int(1,0),
-    new Vector2Int(2,0),
+        [Tooltip("Tên để dễ debug/nhìn trong Inspector.")]
+        public string name;
 
-    new Vector2Int(0,1),
-    new Vector2Int(1,1),
-    new Vector2Int(2,1),
+        [Tooltip("Danh sách offset (x,y) tính từ ô bắt đầu (startX,startY).")]
+        public List<Vector2Int> offsets = new List<Vector2Int>();
+
+        [Tooltip("Số Block khác nhau phải phủ kín pattern này. Ví dụ 2 nghĩa là 2 khối ghép vừa khít.")]
+        public int requiredUniqueBlocks = 2;
+    }
+
+    [Header("Shape Match Patterns")]
+    [Tooltip("Các pattern cần match để xóa. Offsets tính theo grid (x sang phải, y xuống dưới).")]
+    public List<ShapeMatchPattern> patterns = new List<ShapeMatchPattern>()
+    {
+        new ShapeMatchPattern()
+        {
+            name = "3x2 (2 blocks)",
+            requiredUniqueBlocks = 2,
+            offsets = new List<Vector2Int>()
+            {
+                new Vector2Int(0,0), new Vector2Int(1,0), new Vector2Int(2,0),
+                new Vector2Int(0,1), new Vector2Int(1,1), new Vector2Int(2,1),
+            }
+        }
     };
 
     void Start()
@@ -156,23 +173,30 @@ public class GridMap : MonoBehaviour
 
     void CheckPattern()
     {
-        for (int x = 0; x < columns; x++)
+        if (patterns == null || patterns.Count == 0) return;
+
+        foreach (var pattern in patterns)
         {
-            for (int y = 0; y < rows; y++)
+            if (pattern == null || pattern.offsets == null || pattern.offsets.Count == 0) continue;
+
+            for (int x = 0; x < columns; x++)
             {
-                if (MatchShape(x, y))
+                for (int y = 0; y < rows; y++)
                 {
-                    ClearShape(x, y);
+                    if (MatchShape(pattern, x, y))
+                    {
+                        ClearShape(pattern, x, y);
+                    }
                 }
             }
         }
     }
 
-    bool MatchShape(int startX, int startY)
+    bool MatchShape(ShapeMatchPattern pattern, int startX, int startY)
     {
         HashSet<Block> blocks = new HashSet<Block>();
 
-        foreach (var offset in targetShape)
+        foreach (var offset in pattern.offsets)
         {
             int x = startX + offset.x;
             int y = startY + offset.y;
@@ -183,14 +207,36 @@ public class GridMap : MonoBehaviour
             blocks.Add(gridData[x, y]);
         }
 
-        return blocks.Count == 2;
+        if (blocks.Count != Mathf.Max(1, pattern.requiredUniqueBlocks)) return false;
+
+        string expectedParentId = null;
+        foreach (var block in blocks)
+        {
+            if (block == null || string.IsNullOrWhiteSpace(block.parentId))
+            {
+                return false;
+            }
+
+            if (expectedParentId == null)
+            {
+                expectedParentId = block.parentId;
+                continue;
+            }
+
+            if (!string.Equals(expectedParentId, block.parentId, System.StringComparison.Ordinal))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    void ClearShape(int startX, int startY)
+    void ClearShape(ShapeMatchPattern pattern, int startX, int startY)
     {
         HashSet<Block> blocks = new HashSet<Block>();
 
-        foreach (var offset in targetShape)
+        foreach (var offset in pattern.offsets)
         {
             int x = startX + offset.x;
             int y = startY + offset.y;

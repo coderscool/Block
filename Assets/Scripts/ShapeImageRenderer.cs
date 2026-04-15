@@ -7,6 +7,8 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
 {
     [Header("Data")]
     public ShapeData shapeData;
+    [Tooltip("ID cha dùng để so khớp khi clear pattern. Nếu rỗng sẽ lấy tên parent transform.")]
+    public string parentId;
 
     [Header("Render")]
     public GameObject cellPrefab;      
@@ -25,6 +27,21 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
     private Canvas _canvas;
     private GridMap _grid;
     private readonly Dictionary<RectTransform, Vector2Int> _cellCoordByRect = new Dictionary<RectTransform, Vector2Int>();
+
+    private string ResolveParentId()
+    {
+        if (!string.IsNullOrWhiteSpace(parentId))
+        {
+            return parentId.Trim();
+        }
+
+        if (transform.parent != null)
+        {
+            return transform.parent.name;
+        }
+
+        return gameObject.name;
+    }
 
     void Awake()
     {
@@ -238,6 +255,7 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         if (block == null) block = gameObject.AddComponent<Block>();
         block.cells = GetCellsRelativeToPivot(pivotCoord);
         block.SetOrigin(origin);
+        block.SetParentId(ResolveParentId());
 
         _grid.PlaceBlock(block);
     }
