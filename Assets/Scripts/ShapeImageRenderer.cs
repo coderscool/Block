@@ -24,6 +24,7 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
     private bool _shapeDraggable = true;
     private Canvas _canvas;
     private GridMap _grid;
+    private readonly Dictionary<RectTransform, Vector2Int> _cellCoordByRect = new Dictionary<RectTransform, Vector2Int>();
 
     void Awake()
     {
@@ -71,6 +72,7 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         float offsetX = (shapeData.columns - 1) / 2f;
         float offsetY = (shapeData.rows - 1) / 2f;
 
+        _cellCoordByRect.Clear();
         for (int row = 0; row < shapeData.rows; row++)
         {
             for (int col = 0; col < shapeData.columns; col++)
@@ -104,20 +106,12 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
                 rt.pivot = new Vector2(0.5f, 0.5f);
 
                 cells.Add(cell);
+                _cellCoordByRect[rt] = new Vector2Int(col, row);
                 index++;
             }
         }
 
         Debug.Log("Shape render xong!");
-    }
-
-    private Vector2 GetShapeOffset()
-    {
-        float width = shapeData.columns * cellSize;
-        float height = shapeData.rows * cellSize;
-
-        // pivot đang là 0.5 → center → cần đẩy về góc
-        return new Vector2(width / 2f, -height / 2f);
     }
 
     private RectTransform GetClosestSquare()
@@ -164,6 +158,24 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         return closest;
     }
 
+    List<Vector2Int> GetCellsRelativeToPivot(Vector2Int pivotCoord)
+    {
+        List<Vector2Int> result = new List<Vector2Int>();
+
+        for (int row = 0; row < shapeData.rows; row++)
+        {
+            for (int col = 0; col < shapeData.columns; col++)
+            {
+                if (!shapeData.board[row].column[col]) continue;
+
+                // GridMap uses y increasing downward, same as row here.
+                result.Add(new Vector2Int(col - pivotCoord.x, row - pivotCoord.y));
+            }
+        }
+
+        return result;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
     }
@@ -207,12 +219,27 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         var closestSquare = GetClosestSquare();
         if (closestSquare == null) return;
 
-        // Snap shape so one of its cells aligns exactly to nearest grid cell center.
         var closestCell = GetClosestCellToPosition(closestSquare.position);
         if (closestCell == null) return;
 
         var snapDelta = (Vector2)closestSquare.position - (Vector2)closestCell.position;
         _transform.position += (Vector3)snapDelta;
+
+        // 🔥 ADD LOGIC
+        Vector2Int origin = _grid.GetGridPositionFromWorld(closestSquare.position);
+
+        if (!_cellCoordByRect.TryGetValue(closestCell, out var pivotCoord))
+        {
+            // Fallback: assume the snapped cell is the (0,0) cell.
+            pivotCoord = Vector2Int.zero;
+        }
+
+        Block block = gameObject.GetComponent<Block>();
+        if (block == null) block = gameObject.AddComponent<Block>();
+        block.cells = GetCellsRelativeToPivot(pivotCoord);
+        block.SetOrigin(origin);
+
+        _grid.PlaceBlock(block);
     }
 
     public void OnPointerDown(PointerEventData eventData)
