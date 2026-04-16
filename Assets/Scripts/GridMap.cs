@@ -45,12 +45,26 @@ public class GridMap : MonoBehaviour
 
     public void Init(LevelData level)
     {
+        ClearGrid();
+
         columns = level.cols;
         rows = level.rows;
 
         gridData = new Block[columns, rows];
 
         CreateGrid(level);
+    }
+
+    void ClearGrid()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        _gridSquares.Clear();
+
+        gridDict.Clear();
     }
 
     private void CreateGrid(LevelData level)
@@ -166,6 +180,7 @@ public class GridMap : MonoBehaviour
                     if (MatchShape(pattern, x, y))
                     {
                         ClearShape(pattern, x, y);
+                        LevelManager.Instance.OnBlockMatched(1);
                     }
                 }
             }

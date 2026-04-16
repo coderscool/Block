@@ -9,6 +9,8 @@ public class LevelData : ScriptableObject
     [TextArea(5, 10)]
     public string mapString;
 
+    public int blockMatchTarget;
+
     public int[,] GetMap()
     {
         int[,] map = new int[rows, cols];
