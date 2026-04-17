@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "Level_", menuName = "Game/Level Data")]
 public class LevelData : ScriptableObject
@@ -12,6 +13,16 @@ public class LevelData : ScriptableObject
     public int blockMatchTarget;
 
     public ShapeData[] levelShapes;
+
+    [System.Serializable]
+    public class ShapeMatchPattern
+    {
+        public string name;
+        public List<Vector2Int> offsets = new List<Vector2Int>();
+        public int requiredUniqueBlocks = 2;
+    }
+
+    public List<ShapeMatchPattern> patterns = new List<ShapeMatchPattern>();
 
     public int[,] GetMap()
     {

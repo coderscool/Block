@@ -12,15 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef85e2a7001efa54fbb1593a4280613f, type: 3}
   m_Name: Level_2
   m_EditorClassIdentifier: 
-  rows: 5
-  cols: 5
-  mapString: '11001
+  rows: 6
+  cols: 4
+  mapString: '1111
 
-    11011
+    1111
 
-    10001
+    1111
 
-    11111
+    1111
 
-    00111'
-  blockMatchTarget: 1
+    1111
+
+    1111'
+  blockMatchTarget: 2
+  levelShapes:
+  - {fileID: 11400000, guid: 07496a6dda2731f459da533e862933e9, type: 2}
+  - {fileID: 11400000, guid: 16af4a1522d563047941c4159da2653c, type: 2}
+  - {fileID: 11400000, guid: d2631cfdf4358164b871521d1f2f112e, type: 2}
+  - {fileID: 11400000, guid: 37078f806ef1abb41bb592f370012b7b, type: 2}
+  patterns:
+  - name: 2x3
+    offsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    requiredUniqueBlocks: 2

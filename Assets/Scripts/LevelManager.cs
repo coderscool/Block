@@ -1,6 +1,4 @@
-﻿using Microsoft.Unity.VisualStudio.Editor;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -9,14 +7,14 @@ public class LevelManager : MonoBehaviour
     public GridMap grid;
     public LevelData[] levels;
     public GameObject passLevel;
-    public List<ShapeImageRenderer> imageRenderer;
+    //public List<ShapeImageRenderer> imageRenderer;
 
     int currentLevel = 0;
 
     private int currentBlockMatch;
 
     [Header("Shape Spawn")]
-    public GameObject shapePrefab;
+  
     public Transform shapeParent;
 
     private List<ShapeImageRenderer> currentShapes =
@@ -59,7 +57,7 @@ public class LevelManager : MonoBehaviour
         foreach (ShapeData data in level.levelShapes)
         {
             GameObject obj =
-                Instantiate(shapePrefab, shapeParent);
+                Instantiate(data.shapePrefab, shapeParent);
 
             ShapeImageRenderer renderer =
                 obj.GetComponent<ShapeImageRenderer>();

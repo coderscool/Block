@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   axisX: 1
   axisY: 1
+  shapePrefab: {fileID: 6247990149437200087, guid: 5bf43de120387774e9f535a65a88a2ad, type: 3}
   columns: 3
   rows: 3
   board:

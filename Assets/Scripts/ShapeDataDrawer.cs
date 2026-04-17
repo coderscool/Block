@@ -60,6 +60,14 @@ public class ShapeDataDrawer : Editor
         data.axisX = EditorGUILayout.IntField("Axis X", data.axisX);
         data.axisY = EditorGUILayout.IntField("Axis Y", data.axisY);
 
+        // THÊM DÒNG NÀY
+        data.shapePrefab = (GameObject)EditorGUILayout.ObjectField(
+            "Shape Prefab",
+            data.shapePrefab,
+            typeof(GameObject),
+            false
+        );
+
         if ((oldRow != data.rows || oldCol != data.columns)
             && data.rows > 0 && data.columns > 0)
         {

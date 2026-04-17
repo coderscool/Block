@@ -20,28 +20,7 @@ public class GridMap : MonoBehaviour
 
     private Dictionary<Vector2Int, GameObject> gridDict = new Dictionary<Vector2Int, GameObject>();
 
-    [System.Serializable]
-    public class ShapeMatchPattern
-    {
-        public string name;
-        public List<Vector2Int> offsets = new List<Vector2Int>();
-        public int requiredUniqueBlocks = 2;
-    }
-
-    public List<ShapeMatchPattern> patterns = new List<ShapeMatchPattern>()
-    {
-        new ShapeMatchPattern()
-        {
-            name = "3x3",
-            requiredUniqueBlocks = 2,
-            offsets = new List<Vector2Int>()
-            {
-                new Vector2Int(0,0), new Vector2Int(1,0), new Vector2Int(2,0),
-                new Vector2Int(0,1), new Vector2Int(1,1), new Vector2Int(2,1),
-                new Vector2Int(0,2), new Vector2Int(1,2), new Vector2Int(2,2)
-            }
-        }
-    };
+    private List<LevelData.ShapeMatchPattern> patterns;
 
     // ================= INIT =================
 
@@ -51,6 +30,8 @@ public class GridMap : MonoBehaviour
 
         columns = level.cols;
         rows = level.rows;
+
+        patterns = level.patterns;
 
         gridData = new Block[columns, rows];
 
@@ -189,7 +170,7 @@ public class GridMap : MonoBehaviour
         }
     }
 
-    bool MatchShape(ShapeMatchPattern pattern, int startX, int startY)
+    bool MatchShape(LevelData.ShapeMatchPattern pattern, int startX, int startY)
     {
         HashSet<Block> blocks = new HashSet<Block>();
 
@@ -225,7 +206,7 @@ public class GridMap : MonoBehaviour
         return true;
     }
 
-    void ClearShape(ShapeMatchPattern pattern, int startX, int startY)
+    void ClearShape(LevelData.ShapeMatchPattern pattern, int startX, int startY)
     {
         HashSet<Block> blocks = new HashSet<Block>();
 
