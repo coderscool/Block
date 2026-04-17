@@ -138,13 +138,16 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
 
     private RectTransform GetClosestSquare()
     {
+        RectTransform pivotCell = GetBestPivotCell();
+        if (pivotCell == null) return null;
+
         float minDistance = float.MaxValue;
         RectTransform closest = null;
 
         foreach (var square in _grid.GetAllSquares())
         {
             float distance = Vector2.Distance(
-                _transform.position,
+                pivotCell.position,
                 square.position
             );
 
@@ -241,20 +244,18 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         var closestSquare = GetClosestSquare();
         if (closestSquare == null) return;
 
-        var closestCell = GetClosestCellToPosition(closestSquare.position);
-        if (closestCell == null) return;
+        // pivot cố định
+        RectTransform pivotCell = GetBestPivotCell();
 
-        var snapDelta = (Vector2)closestSquare.position - (Vector2)closestCell.position;
+        var snapDelta = (Vector2)closestSquare.position - (Vector2)pivotCell.position;
         _transform.position += (Vector3)snapDelta;
 
         Vector2Int origin = _grid.GetGridPositionFromWorld(closestSquare.position);
 
-        if (!_cellCoordByRect.TryGetValue(closestCell, out var pivotCoord))
-        {
+        if (!_cellCoordByRect.TryGetValue(pivotCell, out var pivotCoord))
             pivotCoord = Vector2Int.zero;
-        }
 
-        Block block = gameObject.GetComponent<Block>();
+        Block block = GetComponent<Block>();
         if (block == null) block = gameObject.AddComponent<Block>();
 
         _grid.RemoveBlock(block);
@@ -264,8 +265,6 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         block.SetParentId(ResolveParentId());
 
         _grid.PlaceBlock(block);
-
-        _grid.LogGrid();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -303,5 +302,39 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         block.SetParentId(ResolveParentId());
 
         _grid.PlaceBlock(block);
+    }
+
+    RectTransform GetBestPivotCell()
+    {
+        if (cells.Count == 0) return null;
+
+        Vector2 center = Vector2.zero;
+
+        // tính tâm trung bình của toàn shape
+        foreach (var c in cells)
+        {
+            center += (Vector2)c.GetComponent<RectTransform>().position;
+        }
+
+        center /= cells.Count;
+
+        // tìm cell gần tâm nhất
+        float minDist = float.MaxValue;
+        RectTransform best = null;
+
+        foreach (var c in cells)
+        {
+            RectTransform rt = c.GetComponent<RectTransform>();
+
+            float dist = Vector2.Distance(rt.position, center);
+
+            if (dist < minDist)
+            {
+                minDist = dist;
+                best = rt;
+            }
+        }
+
+        return best;
     }
 }

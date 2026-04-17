@@ -48,16 +48,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb04ff3a3135e1c45b2c128e13398207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  columns: 8
+  rows: 8
   shapeData: {fileID: 11400000, guid: 7c64bcd28cc95d74b98d503628cd4bb2, type: 2}
-  parentId: A
+  parentId: 
   cellPrefab: {fileID: 2553559325862881418, guid: e6a62c14b1099344b89cca0e66dfbcf3, type: 3}
   imagePieces:
-  - {fileID: 189731807, guid: fd502516ee9e3604bb9a44d825e7bfea, type: 3}
-  - {fileID: -841571953, guid: fd502516ee9e3604bb9a44d825e7bfea, type: 3}
-  - {fileID: 442313695, guid: fd502516ee9e3604bb9a44d825e7bfea, type: 3}
-  - {fileID: 94946581, guid: fd502516ee9e3604bb9a44d825e7bfea, type: 3}
-  - {fileID: -916781141, guid: fd502516ee9e3604bb9a44d825e7bfea, type: 3}
-  - {fileID: 828613319, guid: fd502516ee9e3604bb9a44d825e7bfea, type: 3}
+  - {fileID: 1872386767, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: -253094017, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: 2141364968, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: 1188684566, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: -246310154, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: 668665207, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: 1267092547, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: 1114319859, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: -1065135078, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
   cellSize: 100
-  shapeSelectedScale: {x: 0.8, y: 0.8, z: 0.8}
+  shapeSelectedScale: {x: 0.9, y: 0.9, z: 0.9}
   offset: {x: 0, y: 700}

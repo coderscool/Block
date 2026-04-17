@@ -1,19 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-
-[CreateAssetMenu]
-[System.Serializable]
+[CreateAssetMenu(fileName = "New Shape", menuName = "Game/Shape Data")]
 public class ShapeData : ScriptableObject
 {
     public int axisX = 0;
     public int axisY = 0;
+
     [System.Serializable]
     public class Row
     {
         public bool[] column;
-        private int _size = 0;
 
         public Row() { }
 
@@ -24,14 +20,14 @@ public class ShapeData : ScriptableObject
 
         public void CreateRow(int size)
         {
-            _size = size;
-            column = new bool[_size];
-            ClearRow();
+            column = new bool[size];
         }
 
         public void ClearRow()
         {
-            for (int i = 0; i < _size; i++)
+            if (column == null) return;
+
+            for (int i = 0; i < column.Length; i++)
             {
                 column[i] = false;
             }
@@ -40,11 +36,14 @@ public class ShapeData : ScriptableObject
 
     public int columns = 0;
     public int rows = 0;
+
     public Row[] board;
 
     public void Clear()
     {
-        for (int i = 0; i < rows; i++)
+        if (board == null) return;
+
+        for (int i = 0; i < board.Length; i++)
         {
             board[i].ClearRow();
         }

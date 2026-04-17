@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 5
   cols: 5
-  mapString: '11101
+  mapString: '11111
 
     11111
 
