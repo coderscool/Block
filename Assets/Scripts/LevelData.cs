@@ -11,6 +11,8 @@ public class LevelData : ScriptableObject
 
     public int blockMatchTarget;
 
+    public ShapeData[] levelShapes;
+
     public int[,] GetMap()
     {
         int[,] map = new int[rows, cols];

@@ -256,11 +256,16 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
 
         Block block = gameObject.GetComponent<Block>();
         if (block == null) block = gameObject.AddComponent<Block>();
+
+        _grid.RemoveBlock(block);
+
         block.cells = GetCellsRelativeToPivot(pivotCoord);
         block.SetOrigin(origin);
         block.SetParentId(ResolveParentId());
 
         _grid.PlaceBlock(block);
+
+        _grid.LogGrid();
     }
 
     public void OnPointerDown(PointerEventData eventData)

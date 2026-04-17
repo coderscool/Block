@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class GridMap : MonoBehaviour
@@ -267,5 +268,74 @@ public class GridMap : MonoBehaviour
         if (!gridDict.ContainsKey(gridPos)) return Vector3.zero;
 
         return gridDict[gridPos].GetComponent<RectTransform>().position;
+    }
+
+    public string GetGridDebugString()
+    {
+        if (gridData == null) return "<gridData NULL>";
+
+        StringBuilder sb = new StringBuilder();
+        // Print header with column indices (optional)
+        sb.Append("   ");
+        for (int x = 0; x < columns; x++)
+        {
+            sb.AppendFormat("{0,4}", x);
+        }
+        sb.AppendLine();
+        sb.AppendLine(new string('-', 4 + columns * 4));
+
+        // Rows: row 0 at top (matches spawning logic)
+        for (int y = 0; y < rows; y++)
+        {
+            sb.AppendFormat("{0,2} |", y);
+            for (int x = 0; x < columns; x++)
+            {
+                var key = new Vector2Int(x, y);
+                if (!gridDict.ContainsKey(key))
+                {
+                    sb.Append("   ");
+                }
+                else
+                {
+                    var b = gridData[x, y];
+                    if (b == null)
+                    {
+                        sb.Append(" [ ]");
+                    }
+                    else
+                    {
+                        string pid = b.parentId ?? "B";
+                        string shortId = pid.Length <= 2 ? pid : pid.Substring(0, 2);
+                        sb.Append($"[{shortId}]");
+                    }
+                }
+            }
+            sb.AppendLine();
+        }
+
+        return sb.ToString();
+    }
+
+    // Prints debug string to Unity console
+    public void LogGrid()
+    {
+        Debug.Log("GridData:\n" + GetGridDebugString());
+    }
+
+    public void RemoveBlock(Block block)
+    {
+        foreach (Vector2Int cell in block.cells)
+        {
+            int x = block.origin.x + cell.x;
+            int y = block.origin.y + cell.y;
+
+            if (IsInside(x, y))
+            {
+                if (gridData[x, y] == block)
+                {
+                    gridData[x, y] = null;
+                }
+            }
+        }
     }
 }

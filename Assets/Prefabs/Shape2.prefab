@@ -48,7 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb04ff3a3135e1c45b2c128e13398207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  columns: 8
+  rows: 8
   shapeData: {fileID: 11400000, guid: feee268eb7d79b94c91285eb13b2bea8, type: 2}
+  parentId: A
   cellPrefab: {fileID: 2553559325862881418, guid: e6a62c14b1099344b89cca0e66dfbcf3, type: 3}
   imagePieces:
   - {fileID: -1598967844, guid: e4563480d0e1e6045aa2b1b9c9228dab, type: 3}

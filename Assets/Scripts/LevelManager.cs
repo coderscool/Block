@@ -15,6 +15,14 @@ public class LevelManager : MonoBehaviour
 
     private int currentBlockMatch;
 
+    [Header("Shape Spawn")]
+    public GameObject shapePrefab;
+    public Transform shapeParent;
+
+    private List<ShapeImageRenderer> currentShapes =
+        new List<ShapeImageRenderer>();
+
+
     void Awake()
     {
         Instance = this;
@@ -34,11 +42,35 @@ public class LevelManager : MonoBehaviour
 
         grid.Init(levels[index]);
 
-        foreach (ShapeImageRenderer renderer in imageRenderer) 
+        SpawnShapes(levels[index]);
+    }
+
+    void SpawnShapes(LevelData level)
+    {
+        // Xóa shape cũ
+        foreach (Transform child in shapeParent)
         {
+            Destroy(child.gameObject);
+        }
+
+        currentShapes.Clear();
+
+        // Tạo shape mới theo level
+        foreach (ShapeData data in level.levelShapes)
+        {
+            GameObject obj =
+                Instantiate(shapePrefab, shapeParent);
+
+            ShapeImageRenderer renderer =
+                obj.GetComponent<ShapeImageRenderer>();
+
+            renderer.shapeData = data;
             renderer.Init();
+
+            currentShapes.Add(renderer);
         }
     }
+
 
     public void OnBlockMatched(int amount)
     {
