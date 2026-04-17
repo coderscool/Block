@@ -86,6 +86,8 @@ public class ShapeDataDrawer : Editor
 
         ShapeDataInstance.columns = EditorGUILayout.IntField("Columns", ShapeDataInstance.columns);
         ShapeDataInstance.rows = EditorGUILayout.IntField("Rows", ShapeDataInstance.rows);
+        ShapeDataInstance.axisX = EditorGUILayout.IntField("AxisX", ShapeDataInstance.axisX);
+        ShapeDataInstance.axisY = EditorGUILayout.IntField("AxisX", ShapeDataInstance.axisY);
 
         bool sizeChanged = ShapeDataInstance.columns != oldColumns || ShapeDataInstance.rows != oldRows;
 

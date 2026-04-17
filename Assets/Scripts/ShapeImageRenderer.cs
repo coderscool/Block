@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
+    public int columns = 8;
+    public int rows = 8;
     [Header("Data")]
     public ShapeData shapeData;
     [Tooltip("ID cha dùng để so khớp khi clear pattern. Nếu rỗng sẽ lấy tên parent transform.")]
@@ -52,11 +54,14 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
         _grid = FindObjectOfType<GridMap>();
     }
 
-    private void Start()
+    public void Init()
     {
         if (!ValidateData()) return;
 
         CreateShape();
+
+        // 🔥 đặt vào vị trí grid (ví dụ ô (3,2))
+        PlaceAtGrid(new Vector2Int(shapeData.axisX, shapeData.axisY));
     }
 
     private bool ValidateData()
@@ -260,5 +265,38 @@ public class ShapeImageRenderer : MonoBehaviour, IPointerClickHandler, IBeginDra
 
     public void OnPointerDown(PointerEventData eventData)
     {
+    }
+
+    public void PlaceAtGrid(Vector2Int origin)
+    {
+        if (_grid == null || cells.Count == 0) return;
+
+        // 🔥 chọn 1 cell làm pivot (ví dụ: cell đầu tiên)
+        RectTransform pivotCell = cells[0].GetComponent<RectTransform>();
+
+        if (!_cellCoordByRect.TryGetValue(pivotCell, out var pivotCoord))
+        {
+            pivotCoord = Vector2Int.zero;
+        }
+
+        // 🔥 vị trí world của ô grid
+        Vector3 targetWorldPos = _grid.GetWorldPosition(origin);
+
+        // 🔥 vị trí hiện tại của pivot cell
+        Vector3 pivotWorldPos = pivotCell.position;
+
+        // 🔥 dịch shape
+        Vector3 delta = targetWorldPos - pivotWorldPos;
+        _transform.position += delta;
+
+        // 🔥 tạo block để lưu vào gridData
+        Block block = gameObject.GetComponent<Block>();
+        if (block == null) block = gameObject.AddComponent<Block>();
+
+        block.cells = GetCellsRelativeToPivot(pivotCoord);
+        block.SetOrigin(origin);
+        block.SetParentId(ResolveParentId());
+
+        _grid.PlaceBlock(block);
     }
 }

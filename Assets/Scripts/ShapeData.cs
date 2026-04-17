@@ -7,6 +7,8 @@ using UnityEngine;
 [System.Serializable]
 public class ShapeData : ScriptableObject
 {
+    public int axisX = 0;
+    public int axisY = 0;
     [System.Serializable]
     public class Row
     {

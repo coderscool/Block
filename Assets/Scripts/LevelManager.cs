@@ -1,4 +1,5 @@
 ﻿using Microsoft.Unity.VisualStudio.Editor;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public GridMap grid;
     public LevelData[] levels;
     public GameObject passLevel;
+    public List<ShapeImageRenderer> imageRenderer;
 
     int currentLevel = 0;
 
@@ -31,6 +33,11 @@ public class LevelManager : MonoBehaviour
         currentBlockMatch = levels[index].blockMatchTarget;
 
         grid.Init(levels[index]);
+
+        foreach (ShapeImageRenderer renderer in imageRenderer) 
+        {
+            renderer.Init();
+        }
     }
 
     public void OnBlockMatched(int amount)

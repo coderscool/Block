@@ -261,4 +261,11 @@ public class GridMap : MonoBehaviour
 
         return list;
     }
+
+    public Vector3 GetWorldPosition(Vector2Int gridPos)
+    {
+        if (!gridDict.ContainsKey(gridPos)) return Vector3.zero;
+
+        return gridDict[gridPos].GetComponent<RectTransform>().position;
+    }
 }
