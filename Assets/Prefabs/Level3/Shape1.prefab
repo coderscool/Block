@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6247990149437200087
+--- !u!1 &1364346464509466336
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2897613892745414899}
-  - component: {fileID: 5302202927970155571}
+  - component: {fileID: 3748532683051123855}
+  - component: {fileID: 3548702374044243024}
   m_Layer: 5
-  m_Name: Shape3
+  m_Name: Shape1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &2897613892745414899
+--- !u!224 &3748532683051123855
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6247990149437200087}
+  m_GameObject: {fileID: 1364346464509466336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,16 +33,16 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 299, y: -690}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5302202927970155571
+--- !u!114 &3548702374044243024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6247990149437200087}
+  m_GameObject: {fileID: 1364346464509466336}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb04ff3a3135e1c45b2c128e13398207, type: 3}
@@ -50,19 +50,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   columns: 8
   rows: 8
-  shapeData: {fileID: 11400000, guid: 7c64bcd28cc95d74b98d503628cd4bb2, type: 2}
-  parentId: A
+  shapeData: {fileID: 11400000, guid: 5bbd96cf0ec4b1642af1bed49f02cd36, type: 2}
+  parentId: D
   cellPrefab: {fileID: 2553559325862881418, guid: e6a62c14b1099344b89cca0e66dfbcf3, type: 3}
   imagePieces:
-  - {fileID: 1872386767, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: -253094017, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: 2141364968, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: 1188684566, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: -246310154, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: 668665207, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: 1267092547, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: 1114319859, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
-  - {fileID: -1065135078, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
+  - {fileID: -255867105, guid: feff612920d685e49aff59b2449c0909, type: 3}
+  - {fileID: -1561395053, guid: feff612920d685e49aff59b2449c0909, type: 3}
+  - {fileID: -631714097, guid: feff612920d685e49aff59b2449c0909, type: 3}
+  - {fileID: 178871569, guid: feff612920d685e49aff59b2449c0909, type: 3}
   cellSize: 100
   shapeSelectedScale: {x: 0.9, y: 0.9, z: 0.9}
   offset: {x: 0, y: 700}

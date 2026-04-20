@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6255871369658478422}
   - component: {fileID: 1991263662181744931}
+  - component: {fileID: 5260613718522754808}
   m_Layer: 5
   m_Name: Shape1
   m_TagString: Untagged
@@ -63,3 +64,31 @@ MonoBehaviour:
   cellSize: 100
   shapeSelectedScale: {x: 0.9, y: 0.9, z: 0.9}
   offset: {x: 0, y: 700}
+  rb: {fileID: 5260613718522754808}
+--- !u!50 &5260613718522754808
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3149930650450752386}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0

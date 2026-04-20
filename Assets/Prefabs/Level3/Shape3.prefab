@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4855043326422053373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5920713579068428912}
+  - component: {fileID: 5094318418261323054}
+  m_Layer: 5
+  m_Name: Shape3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5920713579068428912
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855043326422053373}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5094318418261323054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855043326422053373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb04ff3a3135e1c45b2c128e13398207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  columns: 8
+  rows: 8
+  shapeData: {fileID: 11400000, guid: aa56fa2ed18f9f6469ed8d8db6fa773a, type: 2}
+  parentId: F
+  cellPrefab: {fileID: 2553559325862881418, guid: e6a62c14b1099344b89cca0e66dfbcf3, type: 3}
+  imagePieces:
+  - {fileID: -610963258, guid: 083b01141f4f3434f897cfb2bf1b8a11, type: 3}
+  - {fileID: 2097059804, guid: 083b01141f4f3434f897cfb2bf1b8a11, type: 3}
+  - {fileID: 413479866, guid: 083b01141f4f3434f897cfb2bf1b8a11, type: 3}
+  - {fileID: 101401203, guid: 083b01141f4f3434f897cfb2bf1b8a11, type: 3}
+  cellSize: 100
+  shapeSelectedScale: {x: 0.9, y: 0.9, z: 0.9}
+  offset: {x: 0, y: 700}

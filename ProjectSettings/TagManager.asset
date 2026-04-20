@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - BlockCell
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - BlockCell
   - Water
   - UI
   - 

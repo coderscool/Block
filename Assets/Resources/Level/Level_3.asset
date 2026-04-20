@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef85e2a7001efa54fbb1593a4280613f, type: 3}
+  m_Name: Level_3
+  m_EditorClassIdentifier: 
+  rows: 6
+  cols: 4
+  mapString: '1111
+
+    1111
+
+    1111
+
+    1111
+
+    1111
+
+    1111'
+  blockMatchTarget: 3
+  levelShapes:
+  - {fileID: 11400000, guid: 5bbd96cf0ec4b1642af1bed49f02cd36, type: 2}
+  - {fileID: 11400000, guid: 3f1206f7dbcba8149b18ce8edda56d94, type: 2}
+  - {fileID: 11400000, guid: 72ab412591d087b49b0534ad439ad4c3, type: 2}
+  - {fileID: 11400000, guid: f0632998e5317c54ca5683c08c349df8, type: 2}
+  - {fileID: 11400000, guid: aa56fa2ed18f9f6469ed8d8db6fa773a, type: 2}
+  - {fileID: 11400000, guid: 25728f55e0735cc4483e0fe85c632cc9, type: 2}
+  patterns:
+  - name: 2x2
+    offsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    requiredUniqueBlocks: 2
