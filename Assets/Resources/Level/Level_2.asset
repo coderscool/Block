@@ -30,7 +30,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 07496a6dda2731f459da533e862933e9, type: 2}
   - {fileID: 11400000, guid: 16af4a1522d563047941c4159da2653c, type: 2}
   - {fileID: 11400000, guid: d2631cfdf4358164b871521d1f2f112e, type: 2}
-  - {fileID: 11400000, guid: 37078f806ef1abb41bb592f370012b7b, type: 2}
   patterns:
   - name: 2x3
     offsets:

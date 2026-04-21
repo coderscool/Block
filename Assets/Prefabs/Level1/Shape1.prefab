@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2897613892745414899}
   - component: {fileID: 5302202927970155571}
+  - component: {fileID: -1101971595672221279}
   m_Layer: 5
   m_Name: Shape1
   m_TagString: Untagged
@@ -52,7 +53,7 @@ MonoBehaviour:
   rows: 8
   shapeData: {fileID: 11400000, guid: 7c64bcd28cc95d74b98d503628cd4bb2, type: 2}
   parentId: A
-  cellPrefab: {fileID: 2553559325862881418, guid: e6a62c14b1099344b89cca0e66dfbcf3, type: 3}
+  cellPrefab: {fileID: 189319455232733731, guid: e9c8a935c23815746b11fdf3b591718d, type: 3}
   imagePieces:
   - {fileID: 1872386767, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
   - {fileID: -253094017, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
@@ -65,4 +66,49 @@ MonoBehaviour:
   - {fileID: -1065135078, guid: 9db5810f92f289840be0bfa789b3b0aa, type: 3}
   cellSize: 100
   shapeSelectedScale: {x: 0.9, y: 0.9, z: 0.9}
-  offset: {x: 0, y: 700}
+  destnationtag: Square
+--- !u!61 &-1101971595672221279
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6247990149437200087}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
