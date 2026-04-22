@@ -266,7 +266,7 @@ MonoBehaviour:
   cellSize: 0.7
   gap: 0
   parentId: A
-  indexId: 0
+  indexId: 2
   imagePieces:
   - {fileID: -255867105, guid: feff612920d685e49aff59b2449c0909, type: 3}
   - {fileID: -1561395053, guid: feff612920d685e49aff59b2449c0909, type: 3}
@@ -402,7 +402,7 @@ MonoBehaviour:
   cellSize: 0.7
   gap: 0
   parentId: A
-  indexId: 0
+  indexId: 1
   imagePieces:
   - {fileID: -255867105, guid: feff612920d685e49aff59b2449c0909, type: 3}
   - {fileID: -1561395053, guid: feff612920d685e49aff59b2449c0909, type: 3}

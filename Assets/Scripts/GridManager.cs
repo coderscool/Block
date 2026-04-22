@@ -264,6 +264,7 @@ public class GridManager : MonoBehaviour
     bool MatchShape(LevelData.ShapeMatchPattern pattern, int startX, int startY)
     {
         HashSet<Block> uniqueBlocks = new HashSet<Block>();
+        List<int> indexs = new List<int>();
 
         foreach (var offset in pattern.offsets)
         {
@@ -295,6 +296,19 @@ public class GridManager : MonoBehaviour
                 id = b.parentId;
             else if (id != b.parentId)
                 return false;
+
+            if(!indexs.Contains(b.indexId))
+            {
+                if(b.indexId == 1 || indexs.Contains(b.indexId - 1))
+                {
+                    indexs.Add(b.indexId);
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
         }
 
         return true;
