@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static ShapeData;
 
 public class ShapeImageRender : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class ShapeImageRender : MonoBehaviour
     public float gap = 0.05f;
 
     public string parentId = "Shape_01";
+    public int indexId = 0;
+
+    public Sprite[] imagePieces;
 
     void Start()
     {
@@ -46,7 +50,26 @@ public class ShapeImageRender : MonoBehaviour
                 GameObject block =
                     Instantiate(shapeData.shapePrefab, transform);
 
+                SpriteRenderer sr = block.GetComponent<SpriteRenderer>();
+                if (sr == null) sr = block.AddComponent<SpriteRenderer>();
+
+                int index = y * shapeData.columns + x;
+                if (index < imagePieces.Length)
+                    sr.sprite = imagePieces[index];
+
                 AdjustSpriteToCell(block);
+
+                BoxCollider2D col = block.GetComponent<BoxCollider2D>();
+                if (col != null && sr != null)
+                {
+                    Vector2 spriteSize = sr.sprite.bounds.size;
+
+                    // Giảm collider xuống 90% so với sprite
+                    float shrinkFactor = 0.95f; // chỉnh tuỳ ý, ví dụ 0.95 hoặc 0.8
+
+                    col.size = spriteSize * shrinkFactor;
+                    col.offset = Vector2.zero;
+                }
 
                 float posX = x * (cellSize + gap);
                 float posY = -y * (cellSize + gap);
@@ -61,6 +84,7 @@ public class ShapeImageRender : MonoBehaviour
 
                 // GÁN ID CHUẨN
                 b.parentId = parentId;
+                b.indexId = indexId;
 
                 b.origin = new Vector2Int(gridX, gridY);
 

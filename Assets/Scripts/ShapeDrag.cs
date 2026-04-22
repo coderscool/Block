@@ -11,6 +11,8 @@ public class ShapeDrag : MonoBehaviour
 
     ShapeImageRender shapeRender;
 
+    Vector3 startDragPos;
+
     void Awake()
     {
         myColliders = GetComponentsInChildren<Collider2D>();
@@ -38,6 +40,8 @@ public class ShapeDrag : MonoBehaviour
 
     void OnMouseDown()
     {
+        startDragPos = transform.position;
+
         rb.bodyType = RigidbodyType2D.Dynamic;
         offset = transform.position - MouseWorldPosition();
 
@@ -54,57 +58,77 @@ public class ShapeDrag : MonoBehaviour
     {
         SetColliders(false);
 
-        Vector3 mousePos = MouseWorldPosition();
-
-        GameObject[] cells = GameObject.FindGameObjectsWithTag(destinationTag);
-
-        Transform nearestCell = null;
-        float minDist = 99999f;
-
-        foreach (GameObject cell in cells)
-        {
-            float dist = Vector2.Distance(mousePos, cell.transform.position);
-
-            if (dist < minDist)
-            {
-                minDist = dist;
-                nearestCell = cell.transform;
-            }
-        }
-
-        if (nearestCell != null)
-        {
-            Transform closestBlock = GetClosestBlockToMouse(mousePos);
-
-            if (closestBlock != null)
-            {
-                Vector3 blockOffset =
-                    transform.position - closestBlock.position;
-
-                transform.position =
-                    nearestCell.position + blockOffset;
-            }
-        }
+        // SNAP TẠI VỊ TRÍ HIỆN TẠI (đang bị cản)
+        SnapAtCurrentPosition();
 
         // GÁN GRID MỚI
-        UpdateGridData();
+        if (CanPlaceCurrentShape())
+        {
+            UpdateGridData();
+        }
+        else
+        {
+            transform.position = startDragPos;
+            UpdateGridData();
+        }
 
         SetColliders(true);
         rb.bodyType = RigidbodyType2D.Kinematic;
 
         GridManager.instance.LogParentId();
-
         GridManager.instance.CheckPattern();
     }
 
-    Transform GetClosestBlockToMouse(Vector3 mousePos)
+    void SnapAtCurrentPosition()
+    {
+        Transform closestBlock = GetClosestBlockToCenter();
+
+        if (closestBlock == null)
+            return;
+
+        GridCell nearest = GetNearestCell(closestBlock.position);
+
+        if (nearest == null)
+            return;
+
+        Vector3 blockOffset =
+            transform.position - closestBlock.position;
+
+        transform.position =
+            nearest.transform.position + blockOffset;
+    }
+
+    bool CanPlaceCurrentShape()
+    {
+        foreach (Transform child in transform)
+        {
+            GridCell cell = GetNearestCell(child.position);
+
+            if (cell == null)
+                return false;
+
+            Block exist =
+                GridManager.instance.GetBlock(cell.x, cell.y);
+
+            if (exist != null)
+                return false;
+        }
+
+        return true;
+    }
+
+    Transform GetClosestBlockToCenter()
     {
         Transform closest = null;
         float minDist = 99999f;
 
         foreach (Transform child in transform)
         {
-            float dist = Vector2.Distance(mousePos, child.position);
+            float dist =
+                Vector2.Distance(
+                    child.position,
+                    transform.position
+                );
 
             if (dist < minDist)
             {
@@ -140,7 +164,6 @@ public class ShapeDrag : MonoBehaviour
     GridCell GetNearestCell(Vector3 pos)
     {
         GridCell nearest = null;
-
         float minDist = 99999f;
 
         foreach (var cell in GridManager.instance.cells)

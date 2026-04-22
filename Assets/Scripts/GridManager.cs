@@ -35,6 +35,7 @@ public class GridManager : MonoBehaviour
     {
         instance = this;
         CreateGrid();
+        CreateBoundaryWalls();
     }
 
     // ===============================
@@ -81,6 +82,62 @@ public class GridManager : MonoBehaviour
             }
         }
 
+    }
+
+    void CreateBoundaryWalls()
+    {
+        Bounds b = GetGridBounds();
+
+        float thickness = 0.3f;
+
+        CreateWall(
+            new Vector2(b.min.x - thickness / 2, b.center.y),
+            new Vector2(thickness, b.size.y + thickness * 2)
+        );
+
+        CreateWall(
+            new Vector2(b.max.x + thickness / 2, b.center.y),
+            new Vector2(thickness, b.size.y + thickness * 2)
+        );
+
+        CreateWall(
+            new Vector2(b.center.x, b.max.y + thickness / 2),
+            new Vector2(b.size.x + thickness * 2, thickness)
+        );
+
+        CreateWall(
+            new Vector2(b.center.x, b.min.y - thickness / 2),
+            new Vector2(b.size.x + thickness * 2, thickness)
+        );
+    }
+
+    void CreateWall(Vector2 pos, Vector2 size)
+    {
+        GameObject wall = new GameObject("Wall");
+
+        wall.transform.parent = transform;
+        wall.transform.position = pos;
+
+        BoxCollider2D col = wall.AddComponent<BoxCollider2D>();
+        col.size = size;
+
+        Rigidbody2D rb = wall.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
+    }
+
+    public Bounds GetGridBounds()
+    {
+        float step = cellSize + gap;
+
+        float totalWidth = width * step - gap;
+        float totalHeight = height * step - gap;
+
+        Vector3 center = transform.position;
+
+        return new Bounds(
+            center,
+            new Vector3(totalWidth, totalHeight, 0)
+        );
     }
 
     // ===============================

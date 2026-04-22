@@ -6,6 +6,7 @@ public class Block : MonoBehaviour
     public List<Vector2Int> cells = new List<Vector2Int>();
     public Vector2Int origin;
     public string parentId;
+    public int indexId;
 
     public void SetOrigin(Vector2Int newOrigin)
     {
