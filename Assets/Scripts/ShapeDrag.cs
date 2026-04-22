@@ -3,17 +3,24 @@
 public class ShapeDrag : MonoBehaviour
 {
     Vector3 offset;
-    Collider2D myCollider;
+
+    Collider2D[] myColliders;
     Rigidbody2D rb;
+
     public string destinationTag = "Square";
+
+    ShapeImageRender shapeRender;
 
     void Awake()
     {
-        myCollider = GetComponent<Collider2D>();
+        myColliders = GetComponentsInChildren<Collider2D>();
+
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+        shapeRender = GetComponent<ShapeImageRender>();
     }
 
     Vector3 MouseWorldPosition()
@@ -23,26 +30,146 @@ public class ShapeDrag : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(mouse);
     }
 
+    void SetColliders(bool value)
+    {
+        foreach (var col in myColliders)
+            col.enabled = value;
+    }
+
     void OnMouseDown()
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
         offset = transform.position - MouseWorldPosition();
+
+        ClearCurrentShapeCells();
     }
 
     void OnMouseDrag()
     {
         Vector2 target = MouseWorldPosition() + offset;
-        rb.MovePosition(target); 
+        rb.MovePosition(target);
     }
 
     void OnMouseUp()
     {
-        myCollider.enabled = false;
-        Vector2 mousePos = MouseWorldPosition();
-        Collider2D hit = Physics2D.OverlapPoint(mousePos);
-        if (hit != null && hit.CompareTag(destinationTag))
-            transform.position = hit.transform.position + new Vector3(0, 0, -0.01f);
-        myCollider.enabled = true;
+        SetColliders(false);
+
+        Vector3 mousePos = MouseWorldPosition();
+
+        GameObject[] cells = GameObject.FindGameObjectsWithTag(destinationTag);
+
+        Transform nearestCell = null;
+        float minDist = 99999f;
+
+        foreach (GameObject cell in cells)
+        {
+            float dist = Vector2.Distance(mousePos, cell.transform.position);
+
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearestCell = cell.transform;
+            }
+        }
+
+        if (nearestCell != null)
+        {
+            Transform closestBlock = GetClosestBlockToMouse(mousePos);
+
+            if (closestBlock != null)
+            {
+                Vector3 blockOffset =
+                    transform.position - closestBlock.position;
+
+                transform.position =
+                    nearestCell.position + blockOffset;
+            }
+        }
+
+        // GÁN GRID MỚI
+        UpdateGridData();
+
+        SetColliders(true);
         rb.bodyType = RigidbodyType2D.Kinematic;
+
+        GridManager.instance.LogParentId();
+
+        GridManager.instance.CheckPattern();
+    }
+
+    Transform GetClosestBlockToMouse(Vector3 mousePos)
+    {
+        Transform closest = null;
+        float minDist = 99999f;
+
+        foreach (Transform child in transform)
+        {
+            float dist = Vector2.Distance(mousePos, child.position);
+
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closest = child;
+            }
+        }
+
+        return closest;
+    }
+
+    void UpdateGridData()
+    {
+        foreach (Transform child in transform)
+        {
+            Block b = child.GetComponent<Block>();
+
+            GridCell nearest = GetNearestCell(child.position);
+
+            if (nearest != null)
+            {
+                b.origin = new Vector2Int(nearest.x, nearest.y);
+
+                GridManager.instance.SetBlock(
+                    nearest.x,
+                    nearest.y,
+                    b
+                );
+            }
+        }
+    }
+
+    GridCell GetNearestCell(Vector3 pos)
+    {
+        GridCell nearest = null;
+
+        float minDist = 99999f;
+
+        foreach (var cell in GridManager.instance.cells)
+        {
+            float dist =
+                Vector2.Distance(pos, cell.transform.position);
+
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearest = cell;
+            }
+        }
+
+        return nearest;
+    }
+
+    void ClearCurrentShapeCells()
+    {
+        foreach (Transform child in transform)
+        {
+            Block b = child.GetComponent<Block>();
+
+            if (b == null) continue;
+
+            GridManager.instance.ClearBlockAt(
+                b.origin.x,
+                b.origin.y
+            );
+        }
     }
 }

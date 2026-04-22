@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77fc0a0353cb52d47aa5394d0498c8f6, type: 3}
   m_Name: Shape1_1
   m_EditorClassIdentifier: 
-  axisX: 1
-  axisY: 1
-  shapePrefab: {fileID: 189319455232733731, guid: e9c8a935c23815746b11fdf3b591718d, type: 3}
-  columns: 3
-  rows: 3
+  axisX: 0
+  axisY: 0
+  shapePrefab: {fileID: 9097114825805624393, guid: b47671266b5094149b370c4e0d6cca74, type: 3}
+  columns: 2
+  rows: 2
   board:
-  - column: 010100
-  - column: 010100
-  - column: 010100
+  - column: 0100
+  - column: 0101

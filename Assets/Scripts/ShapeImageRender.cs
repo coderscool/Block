@@ -1,43 +1,34 @@
 ﻿using UnityEngine;
 
-// ==========================================
-// SHAPE IMAGE RENDERER
-// render ShapeData ngoài world space
-// ==========================================
 public class ShapeImageRender : MonoBehaviour
 {
     public ShapeData shapeData;
 
-    [Header("Render")]
     public float cellSize = 1f;
     public float gap = 0.05f;
 
-    [Header("Auto")]
-    public bool renderOnStart = true;
-    public bool clearOldBeforeRender = true;
+    public string parentId = "Shape_01";
 
     void Start()
     {
-        if (renderOnStart)
-            RenderShape();
+        // nếu quên nhập thì lấy tên object
+        if (string.IsNullOrEmpty(parentId))
+            parentId = gameObject.name;
+
+        SpawnShapeAsParent();
     }
 
-    [ContextMenu("Render Shape")]
-    public void RenderShape()
+    void SpawnShapeAsParent()
     {
         if (shapeData == null) return;
+        if (shapeData.shapePrefab == null) return;
 
-        if (clearOldBeforeRender)
-            ClearChildren();
+        GridCell firstCell =
+            GridManager.instance.GetCell(shapeData.axisX, shapeData.axisY);
 
-        if (shapeData.shapePrefab == null)
-        {
-            Debug.LogWarning("Shape Prefab missing in ShapeData");
-            return;
-        }
+        if (firstCell == null) return;
 
-        float startX = -(shapeData.columns - 1) * (cellSize + gap) / 2f;
-        float startY = (shapeData.rows - 1) * (cellSize + gap) / 2f;
+        transform.position = firstCell.transform.position;
 
         for (int y = 0; y < shapeData.rows; y++)
         {
@@ -46,23 +37,52 @@ public class ShapeImageRender : MonoBehaviour
                 if (!shapeData.board[y].column[x])
                     continue;
 
+                int gridX = shapeData.axisX + x;
+                int gridY = shapeData.axisY + y;
+
+                if (!GridManager.instance.IsInside(gridX, gridY))
+                    continue;
+
                 GameObject block =
                     Instantiate(shapeData.shapePrefab, transform);
 
-                float posX = startX + x * (cellSize + gap);
-                float posY = startY - y * (cellSize + gap);
+                AdjustSpriteToCell(block);
+
+                float posX = x * (cellSize + gap);
+                float posY = -y * (cellSize + gap);
 
                 block.transform.localPosition =
                     new Vector3(posX, posY, 0);
+
+                Block b = block.GetComponent<Block>();
+
+                if (b == null)
+                    b = block.AddComponent<Block>();
+
+                // GÁN ID CHUẨN
+                b.parentId = parentId;
+
+                b.origin = new Vector2Int(gridX, gridY);
+
+                GridManager.instance.SetBlock(gridX, gridY, b);
             }
         }
-    }
 
-    void ClearChildren()
+        Debug.Log("Spawn shape id = " + parentId);
+    }
+    void AdjustSpriteToCell(GameObject obj)
     {
-        for (int i = transform.childCount - 1; i >= 0; i--)
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr != null && sr.sprite != null)
         {
-            DestroyImmediate(transform.GetChild(i).gameObject);
+            // Kích thước sprite trong world units
+            Vector2 spriteSize = sr.sprite.bounds.size;
+
+            // Tính scale để sprite vừa khít cellSize
+            float scaleX = cellSize / spriteSize.x;
+            float scaleY = cellSize / spriteSize.y;
+
+            obj.transform.localScale = new Vector3(scaleX, scaleY, 1);
         }
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Match", menuName = "Game/Shape Match")]
-public class ShapeMatchPattern
+public class ShapeMatchPattern : ScriptableObject
 {
     public string name;
     public List<Vector2Int> offsets = new List<Vector2Int>();
