@@ -10,28 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef85e2a7001efa54fbb1593a4280613f, type: 3}
-  m_Name: Level_2
+  m_Name: Level_5
   m_EditorClassIdentifier: 
-  rows: 6
-  cols: 4
-  mapString: '1111
+  rows: 9
+  cols: 6
+  mapString: '001100
 
-    1111
+    111111
 
-    1111
+    111111
 
-    1111
+    111111
 
-    1111
+    111111
 
-    1111'
-  blockMatchTarget: 2
+    111111
+
+    111111
+
+    111111
+
+    001100'
+  blockMatchTarget: 5
   time: 60
   levelShapes:
-  - {fileID: 11400000, guid: 07496a6dda2731f459da533e862933e9, type: 2}
-  - {fileID: 11400000, guid: 16af4a1522d563047941c4159da2653c, type: 2}
-  - {fileID: 11400000, guid: d2631cfdf4358164b871521d1f2f112e, type: 2}
-  - {fileID: 11400000, guid: 37078f806ef1abb41bb592f370012b7b, type: 2}
+  - {fileID: 11400000, guid: feee268eb7d79b94c91285eb13b2bea8, type: 2}
   patterns:
   - name: 3x2
     offsets:
@@ -42,4 +45,13 @@ MonoBehaviour:
     - {x: 0, y: 2}
     - {x: 1, y: 2}
     requiredUniqueBlocks: 6
-  goldReward: 20
+  - name: 2x3
+    offsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    requiredUniqueBlocks: 6
+  goldReward: 10

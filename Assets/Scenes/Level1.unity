@@ -1449,6 +1449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 1621408736}
   levels:
+  - {fileID: 11400000, guid: 03cf3ba5a372cf641a28df5a6f959821, type: 2}
   - {fileID: 11400000, guid: c0f3a8c165d1f4f448ccd1feed943c8f, type: 2}
   - {fileID: 11400000, guid: 883bebe96c9894141869f130689bf7cb, type: 2}
   - {fileID: 11400000, guid: 2753288ab9b5e5e4aaafe63a5f7b02d8, type: 2}
@@ -1501,6 +1502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lives: 2
   gold: 10
+  currentLevel: 0
 --- !u!1 &1253608453
 GameObject:
   m_ObjectHideFlags: 0
