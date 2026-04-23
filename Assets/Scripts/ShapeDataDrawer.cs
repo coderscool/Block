@@ -6,12 +6,14 @@ public class ShapeDataDrawer : Editor
 {
     ShapeData data;
     SerializedProperty imagePiecesProp;
+    SerializedProperty dragModeProp;
 
     private void OnEnable()
     {
         data = (ShapeData)target;
         // Lấy reference tới property imagePieces
         imagePiecesProp = serializedObject.FindProperty("imagePieces");
+        dragModeProp = serializedObject.FindProperty("dragMode");
     }
 
     public override void OnInspectorGUI()
@@ -26,6 +28,10 @@ public class ShapeDataDrawer : Editor
 
         data.parentId = EditorGUILayout.TextField("Parent Id", data.parentId);
         data.indexId = EditorGUILayout.IntField("Index Id", data.indexId);
+
+        GUILayout.Space(10);
+
+        EditorGUILayout.PropertyField(dragModeProp, new GUIContent("Drag Mode"));
 
         GUILayout.Space(10);
 

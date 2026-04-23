@@ -2,10 +2,6 @@
 using System.Text;
 using UnityEngine;
 
-// ===============================
-// GRID MANAGER FULL FIX
-// world space grid
-// ===============================
 public class GridManager : MonoBehaviour
 {
     public static GridManager instance;
@@ -18,6 +14,7 @@ public class GridManager : MonoBehaviour
     public float cellSize = 0.5f;
     public float gap = 0.05f;
     public GameObject gridPrefab;
+    public GameObject wallPrefab;
 
     public Sprite wallSprite;
 
@@ -43,9 +40,6 @@ public class GridManager : MonoBehaviour
         CreateBoundaryWalls();
     }
 
-    // ===============================
-    // CREATE GRID
-    // ===============================
     void CreateGrid(LevelData level)
     {
         cells = new GridCell[width, height];
@@ -80,12 +74,13 @@ public class GridManager : MonoBehaviour
                 }
                 else
                 {
-                    // tạo cell rỗng để tránh null
-                    GameObject dummy = new GameObject($"Cell_{x}_{y}");
-                    dummy.transform.parent = transform;
-                    dummy.transform.position = new Vector3(startX + x * step, startY - y * step, 0);
+                    GameObject obj = Instantiate(wallPrefab, transform);
+                    AdjustSpriteToCell(obj);
+                    obj.transform.position = new Vector3(startX + x * step, startY - y * step, 0);
+                    obj.name = $"Cell_{x}_{y}";
+                    obj.tag = "Square";
 
-                    GridCell cell = dummy.AddComponent<GridCell>();
+                    GridCell cell = obj.GetComponent<GridCell>() ?? obj.AddComponent<GridCell>();
                     cell.x = x;
                     cell.y = y;
                     cell.occupied = false;
@@ -160,9 +155,6 @@ public class GridManager : MonoBehaviour
         );
     }
 
-    // ===============================
-    // BASIC
-    // ===============================
     public bool IsInside(int x, int y)
     {
         return x >= 0 &&
@@ -189,9 +181,6 @@ public class GridManager : MonoBehaviour
         return c.transform.position;
     }
 
-    // ===============================
-    // DATA
-    // ===============================
     public void SetBlock(int x, int y, Block block)
     {
         if (!IsInside(x, y))
@@ -217,10 +206,6 @@ public class GridManager : MonoBehaviour
         return gridData[x, y] != null;
     }
 
-    // ===============================
-    // CLEAR SHAPE BY ID
-    // dùng khi kéo lại shape cũ
-    // ===============================
     public void ClearShape(string parentId)
     {
         for (int x = 0; x < width; x++)
@@ -238,10 +223,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    // ===============================
-    // CHECK PLACE SHAPE
-    // dùng để chặn đè shape khác
-    // ===============================
     public bool CanPlaceShape(List<Vector2Int> coords, string ownerId)
     {
         foreach (var c in coords)
@@ -258,9 +239,6 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
-    // ===============================
-    // MATCH SYSTEM
-    // ===============================
     public void CheckPattern()
     {
         foreach (var pattern in patterns)
@@ -363,9 +341,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    // ===============================
-    // DEBUG
-    // ===============================
     [ContextMenu("Log Grid Map")]
     public void LogGridMap()
     {

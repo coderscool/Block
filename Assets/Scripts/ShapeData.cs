@@ -3,6 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Shape", menuName = "Game/Shape Data")]
 public class ShapeData : ScriptableObject
 {
+    public enum DragMode
+    {
+        Free,
+        Horizontal,
+        Vertical
+    }
+
+    public DragMode dragMode = DragMode.Free;
+
     public int axisX = 0;
     public int axisY = 0;
 

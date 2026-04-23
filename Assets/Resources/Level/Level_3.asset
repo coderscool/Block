@@ -26,6 +26,7 @@ MonoBehaviour:
 
     1111'
   blockMatchTarget: 3
+  time: 60
   levelShapes:
   - {fileID: 11400000, guid: 5bbd96cf0ec4b1642af1bed49f02cd36, type: 2}
   - {fileID: 11400000, guid: 3f1206f7dbcba8149b18ce8edda56d94, type: 2}

@@ -51,6 +51,26 @@ public class ShapeDrag : MonoBehaviour
     void OnMouseDrag()
     {
         Vector2 target = MouseWorldPosition() + offset;
+
+        if (shapeRender != null && shapeRender.shapeData != null)
+        {
+            var mode = shapeRender.shapeData.dragMode;
+
+            switch (mode)
+            {
+                case ShapeData.DragMode.Horizontal:
+                    target.y = startDragPos.y;
+                    break;
+                case ShapeData.DragMode.Vertical:
+                    target.x = startDragPos.x;
+                    break;
+                case ShapeData.DragMode.Free:
+                default:
+                    // no constraint
+                    break;
+            }
+        }
+
         rb.MovePosition(target);
     }
 

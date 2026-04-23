@@ -12,6 +12,8 @@ public class LevelData : ScriptableObject
 
     public int blockMatchTarget;
 
+    public float time = 60f;
+
     public ShapeData[] levelShapes;
 
     [System.Serializable]
@@ -25,6 +27,9 @@ public class LevelData : ScriptableObject
     [Header("Patterns")]
     public List<ShapeMatchPattern> patterns =
         new List<ShapeMatchPattern>();
+
+    [Header("Rewards")]
+    public int goldReward = 10;
 
     public int[,] GetMap()
     {

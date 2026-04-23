@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using TMPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -7,7 +9,10 @@ public class LevelManager : MonoBehaviour
     public GridManager grid;
     public LevelData[] levels;
     public GameObject passLevel;
+    public GameObject failLevel;
     //public List<ShapeImageRenderer> imageRenderer;
+
+    public TMP_Text levelText;
 
     int currentLevel = 0;
 
@@ -29,6 +34,13 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         passLevel.SetActive(false);
+        failLevel.SetActive(false);
+
+        if (PlayerData.Instance == null)
+        {
+            Debug.LogWarning("PlayerData.Instance is null. Add PlayerData component to a persistent GameObject.");
+        }
+
         LoadLevel(0);
     }
 
@@ -42,12 +54,20 @@ public class LevelManager : MonoBehaviour
 
         grid.Init(levels[index]);
 
+        CountdownTimer timer = FindObjectOfType<CountdownTimer>();
+        if (timer != null)
+        {
+            timer.SetTime(levels[index].time, false);
+            timer.waitForFirstClick = true;
+        }
+
+        levelText.text = "Level " + (currentLevel + 1);
+
         SpawnShapes(levels[index]);
     }
 
     void SpawnShapes(LevelData level)
     {
-        // Xóa shape cũ
         foreach (Transform child in shapeParent)
         {
             Destroy(child.gameObject);
@@ -97,11 +117,23 @@ public class LevelManager : MonoBehaviour
         if (currentLevel >= levels.Length)
             currentLevel = 0;
 
+        if (PlayerData.Instance != null)
+            PlayerData.Instance.UpdateLevel(currentLevel);
+
         LoadLevel(currentLevel);
     }
 
     public void PassLevel()
     {
+        int reward = 0;
+        if (levels != null && currentLevel >= 0 && currentLevel < levels.Length)
+        {
+            reward = levels[currentLevel].goldReward;
+        }
+
+        if (PlayerData.Instance != null && reward > 0)
+            PlayerData.Instance.AddGold(reward);
+
         passLevel.SetActive(true);
     }
 
@@ -111,9 +143,19 @@ public class LevelManager : MonoBehaviour
         passLevel.SetActive(false);
     }
 
+    public void FailLevel()
+    {
+        if (PlayerData.Instance != null)
+        {
+            PlayerData.Instance.LoseLife(1);
+        }
+
+        failLevel.SetActive(true);
+    }
+
     public void ReloadLevel()
     {
         LoadLevel(currentLevel);
-        passLevel.SetActive(false);
+        failLevel.SetActive(false);
     }
 }

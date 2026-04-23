@@ -26,6 +26,7 @@ MonoBehaviour:
 
     1111'
   blockMatchTarget: 2
+  time: 60
   levelShapes:
   - {fileID: 11400000, guid: 07496a6dda2731f459da533e862933e9, type: 2}
   - {fileID: 11400000, guid: 16af4a1522d563047941c4159da2653c, type: 2}
@@ -41,3 +42,4 @@ MonoBehaviour:
     - {x: 0, y: 2}
     - {x: 1, y: 2}
     requiredUniqueBlocks: 6
+  goldReward: 20
