@@ -4,7 +4,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
-    public GridMap grid;
+    public GridManager grid;
     public LevelData[] levels;
     public GameObject passLevel;
     //public List<ShapeImageRenderer> imageRenderer;
@@ -17,8 +17,8 @@ public class LevelManager : MonoBehaviour
   
     public Transform shapeParent;
 
-    private List<ShapeImageRenderer> currentShapes =
-        new List<ShapeImageRenderer>();
+    private List<ShapeImageRender> currentShapes =
+        new List<ShapeImageRender>();
 
 
     void Awake()
@@ -34,6 +34,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadLevel(int index)
     {
+        grid.ClearCurrentMap();
+
         currentLevel = index;
 
         currentBlockMatch = levels[index].blockMatchTarget;
@@ -56,14 +58,21 @@ public class LevelManager : MonoBehaviour
         // Tạo shape mới theo level
         foreach (ShapeData data in level.levelShapes)
         {
-            GameObject obj =
-                Instantiate(data.shapePrefab, shapeParent);
+            GameObject obj = new GameObject("Shape"); // tạo object trống
+            obj.transform.SetParent(shapeParent);
 
-            ShapeImageRenderer renderer =
-                obj.GetComponent<ShapeImageRenderer>();
-
+            ShapeImageRender renderer = obj.AddComponent<ShapeImageRender>();
             renderer.shapeData = data;
+            renderer.parentId = data.parentId;
+            renderer.indexId = data.indexId;
+            renderer.imagePieces = data.imagePieces; // nếu có sprite pieces trong LevelData
             renderer.Init();
+
+            Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
+            rb.bodyType = RigidbodyType2D.Kinematic; // đặt kinematic
+
+            // Thêm script ShapeDrag
+            obj.AddComponent<ShapeDrag>();
 
             currentShapes.Add(renderer);
         }

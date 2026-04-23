@@ -1,21 +1,31 @@
-using UnityEditor;
+ï»¿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ShapeData))]
 public class ShapeDataDrawer : Editor
 {
     ShapeData data;
+    SerializedProperty imagePiecesProp;
 
     private void OnEnable()
     {
         data = (ShapeData)target;
+        // Láº¥y reference tá»›i property imagePieces
+        imagePiecesProp = serializedObject.FindProperty("imagePieces");
     }
 
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+
         EditorGUI.BeginChangeCheck();
 
         DrawSizeFields();
+
+        GUILayout.Space(10);
+
+        data.parentId = EditorGUILayout.TextField("Parent Id", data.parentId);
+        data.indexId = EditorGUILayout.IntField("Index Id", data.indexId);
 
         GUILayout.Space(10);
 
@@ -31,6 +41,9 @@ public class ShapeDataDrawer : Editor
 
         GUILayout.Space(10);
 
+        // Váº½ máº£ng sprite
+        EditorGUILayout.PropertyField(imagePiecesProp, new GUIContent("Image Pieces"), true);
+
         if (IsValid())
         {
             DrawBoard();
@@ -41,6 +54,8 @@ public class ShapeDataDrawer : Editor
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
         }
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     bool IsValid()
@@ -60,7 +75,6 @@ public class ShapeDataDrawer : Editor
         data.axisX = EditorGUILayout.IntField("Axis X", data.axisX);
         data.axisY = EditorGUILayout.IntField("Axis Y", data.axisY);
 
-        // THÊM DÒNG NÀY
         data.shapePrefab = (GameObject)EditorGUILayout.ObjectField(
             "Shape Prefab",
             data.shapePrefab,

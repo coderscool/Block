@@ -10,13 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77fc0a0353cb52d47aa5394d0498c8f6, type: 3}
-  m_Name: Shape3_2
+  m_Name: Shape3_2_2
   m_EditorClassIdentifier: 
-  axisX: 2
-  axisY: 2
-  shapePrefab: {fileID: 4855043326422053373, guid: ebe22d067835b234ea682c9e66723748, type: 3}
-  columns: 2
+  axisX: 3
+  axisY: 0
+  shapePrefab: {fileID: 9097114825805624393, guid: b47671266b5094149b370c4e0d6cca74, type: 3}
+  imagePieces:
+  - {fileID: 1833943868, guid: 1b7977658e8fc6045a3f086ff77aa834, type: 3}
+  - {fileID: 537065451, guid: 1b7977658e8fc6045a3f086ff77aa834, type: 3}
+  parentId: B
+  indexId: 1
+  columns: 1
   rows: 2
   board:
-  - column: 0001
-  - column: 0001
+  - column: 01
+  - column: 01

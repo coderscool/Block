@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   rows: 5
-  cols: 6
-  mapString: '111111
+  cols: 5
+  mapString: '11111
 
-    111111
+    11111
 
-    111111
+    11111
 
-    111111
+    11111
 
-    111111'
+    11111'
   blockMatchTarget: 1
   levelShapes:
   - {fileID: 11400000, guid: 7c64bcd28cc95d74b98d503628cd4bb2, type: 2}
@@ -39,4 +39,4 @@ MonoBehaviour:
     - {x: 0, y: 2}
     - {x: 1, y: 2}
     - {x: 2, y: 2}
-    requiredUniqueBlocks: 2
+    requiredUniqueBlocks: 9

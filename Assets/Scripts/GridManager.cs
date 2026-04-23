@@ -19,6 +19,10 @@ public class GridManager : MonoBehaviour
     public float gap = 0.05f;
     public GameObject gridPrefab;
 
+    public Sprite wallSprite;
+
+    //public LevelData level;
+
     [Header("Runtime")]
     public GridCell[,] cells;
     public Block[,] gridData;
@@ -26,63 +30,74 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector2Int, GridCell> gridDict =
         new Dictionary<Vector2Int, GridCell>();
 
-    [Header("Patterns")]
-    public List<LevelData.ShapeMatchPattern> patterns =
-        new List<LevelData.ShapeMatchPattern>();
+    public List<LevelData.ShapeMatchPattern> patterns;
 
     // ===============================
-    void Awake()
+    public void Init(LevelData level)
     {
         instance = this;
-        CreateGrid();
+        patterns = level.patterns;
+        width = level.cols;
+        height = level.rows;
+        CreateGrid(level);
         CreateBoundaryWalls();
     }
 
     // ===============================
     // CREATE GRID
     // ===============================
-    void CreateGrid()
+    void CreateGrid(LevelData level)
     {
         cells = new GridCell[width, height];
         gridData = new Block[width, height];
         gridDict.Clear();
 
         float step = cellSize + gap;
-
         float startX = -(width - 1) * step / 2f;
         float startY = (height - 1) * step / 2f;
+
+        int[,] map = level.GetMap();
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                GameObject obj = Instantiate(gridPrefab, transform);
-                AdjustSpriteToCell(obj);
+                if (map[y, x] == 1)
+                {
+                    GameObject obj = Instantiate(gridPrefab, transform);
+                    AdjustSpriteToCell(obj);
+                    obj.transform.position = new Vector3(startX + x * step, startY - y * step, 0);
+                    obj.name = $"Cell_{x}_{y}";
+                    obj.tag = "Square";
 
-                obj.transform.position = new Vector3(
-                    startX + x * step,
-                    startY - y * step,
-                    0
-                );
+                    GridCell cell = obj.GetComponent<GridCell>() ?? obj.AddComponent<GridCell>();
+                    cell.x = x;
+                    cell.y = y;
+                    cell.occupied = false;
 
-                obj.name = $"Cell_{x}_{y}";
-                obj.tag = "Square";
+                    cells[x, y] = cell;
+                    gridDict[new Vector2Int(x, y)] = cell;
+                }
+                else
+                {
+                    // tạo cell rỗng để tránh null
+                    GameObject dummy = new GameObject($"Cell_{x}_{y}");
+                    dummy.transform.parent = transform;
+                    dummy.transform.position = new Vector3(startX + x * step, startY - y * step, 0);
 
-                GridCell cell = obj.GetComponent<GridCell>();
+                    GridCell cell = dummy.AddComponent<GridCell>();
+                    cell.x = x;
+                    cell.y = y;
+                    cell.occupied = false;
 
-                if (cell == null)
-                    cell = obj.AddComponent<GridCell>();
-
-                cell.x = x;
-                cell.y = y;
-                cell.occupied = false;
-
-                cells[x, y] = cell;
-                gridDict[new Vector2Int(x, y)] = cell;
+                    cells[x, y] = cell;
+                    gridDict[new Vector2Int(x, y)] = cell;
+                }
             }
         }
-
     }
+
+
 
     void CreateBoundaryWalls()
     {
@@ -123,6 +138,11 @@ public class GridManager : MonoBehaviour
 
         Rigidbody2D rb = wall.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
+
+        SpriteRenderer sr = wall.AddComponent<SpriteRenderer>();
+        sr.sprite = wallSprite; // gán sprite bạn muốn (public Sprite wallSprite;)
+        sr.drawMode = SpriteDrawMode.Sliced; // cho phép scale
+        sr.size = size;
     }
 
     public Bounds GetGridBounds()
@@ -299,7 +319,7 @@ public class GridManager : MonoBehaviour
 
             if(!indexs.Contains(b.indexId))
             {
-                if(b.indexId == 1 || indexs.Contains(b.indexId - 1))
+                if(b.indexId == 0 || indexs.Contains(b.indexId - 1))
                 {
                     indexs.Add(b.indexId);
                 }
@@ -431,5 +451,18 @@ public class GridManager : MonoBehaviour
 
             obj.transform.localScale = new Vector3(scaleX, scaleY, 1);
         }
+    }
+
+    public void ClearCurrentMap()
+    {
+        // xoá toàn bộ object con của GridManager
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+
+        gridDict.Clear();
+        cells = null;
+        gridData = null;
     }
 }

@@ -22,7 +22,9 @@ public class LevelData : ScriptableObject
         public int requiredUniqueBlocks = 2;
     }
 
-    public List<ShapeMatchPattern> patterns = new List<ShapeMatchPattern>();
+    [Header("Patterns")]
+    public List<ShapeMatchPattern> patterns =
+        new List<ShapeMatchPattern>();
 
     public int[,] GetMap()
     {

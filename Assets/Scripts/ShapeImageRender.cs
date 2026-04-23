@@ -5,17 +5,16 @@ public class ShapeImageRender : MonoBehaviour
 {
     public ShapeData shapeData;
 
-    public float cellSize = 1f;
-    public float gap = 0.05f;
+    public float cellSize = 0.7f;
+    public float gap = 0f;
 
     public string parentId = "Shape_01";
     public int indexId = 0;
 
     public Sprite[] imagePieces;
 
-    void Start()
+    public void Init()
     {
-        // nếu quên nhập thì lấy tên object
         if (string.IsNullOrEmpty(parentId))
             parentId = gameObject.name;
 

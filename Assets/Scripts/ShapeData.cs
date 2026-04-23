@@ -8,6 +8,11 @@ public class ShapeData : ScriptableObject
 
     public GameObject shapePrefab;
 
+    public Sprite[] imagePieces;
+
+    public string parentId;
+    public int indexId;
+
     [System.Serializable]
     public class Row
     {
