@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77fc0a0353cb52d47aa5394d0498c8f6, type: 3}
-  m_Name: Shape4_4_2 1
+  m_Name: Shape4_4_2
   m_EditorClassIdentifier: 
   dragMode: 0
   axisX: 0
   axisY: 4
-  shapePrefab: {fileID: 189319455232733731, guid: e9c8a935c23815746b11fdf3b591718d, type: 3}
-  imagePieces: []
+  shapePrefab: {fileID: 9097114825805624393, guid: b47671266b5094149b370c4e0d6cca74, type: 3}
+  imagePieces:
+  - {fileID: -1945628356, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: -157209069, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: 86802914, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: -1022565501, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
   parentId: D
   indexId: 1
   columns: 2

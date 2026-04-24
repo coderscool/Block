@@ -34,24 +34,17 @@ MonoBehaviour:
   blockMatchTarget: 5
   time: 60
   levelShapes:
-  - {fileID: 11400000, guid: feee268eb7d79b94c91285eb13b2bea8, type: 2}
+  - {fileID: 11400000, guid: 75c9342e65ecf634eb1d33ef1b25aa25, type: 2}
+  - {fileID: 11400000, guid: cb2ba1e8064136840bf7c66f7c33f274, type: 2}
+  - {fileID: 11400000, guid: f4eef15beb89aee4bb99d7febccea881, type: 2}
+  - {fileID: 11400000, guid: bc552a0ae86c3fb41a505c185fe061c6, type: 2}
+  - {fileID: 11400000, guid: 78cf735eb46dc8643a59768a9777c8f0, type: 2}
+  - {fileID: 11400000, guid: 4befcabaed3ba33418d8179ef1d673f6, type: 2}
+  - {fileID: 11400000, guid: 7ce56893303aaad46ac6dadc5ae35986, type: 2}
+  - {fileID: 11400000, guid: 4fbf292f27049ea4eae1f602e7a1ce05, type: 2}
+  - {fileID: 11400000, guid: 936ade6f0e9d5b246aa8fbb141714a9d, type: 2}
+  - {fileID: 11400000, guid: 207746681b77a4a49844b4a37710cde7, type: 2}
   patterns:
-  - name: 3x2
-    offsets:
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
-    - {x: 0, y: 2}
-    - {x: 1, y: 2}
-    requiredUniqueBlocks: 6
-  - name: 2x3
-    offsets:
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 2, y: 0}
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
-    - {x: 2, y: 1}
-    requiredUniqueBlocks: 6
+  - {fileID: 11400000, guid: 63e2695cf6f39194aa0acb99173b718c, type: 2}
+  - {fileID: 11400000, guid: 7994de0091af07341892a9b95ded4d48, type: 2}
   goldReward: 10

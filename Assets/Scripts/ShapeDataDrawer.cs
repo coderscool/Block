@@ -7,6 +7,7 @@ public class ShapeDataDrawer : Editor
     ShapeData data;
     SerializedProperty imagePiecesProp;
     SerializedProperty dragModeProp;
+    SerializedProperty patternProp;
 
     private void OnEnable()
     {
@@ -14,6 +15,7 @@ public class ShapeDataDrawer : Editor
         // Lấy reference tới property imagePieces
         imagePiecesProp = serializedObject.FindProperty("imagePieces");
         dragModeProp = serializedObject.FindProperty("dragMode");
+        patternProp = serializedObject.FindProperty("pattern");
     }
 
     public override void OnInspectorGUI()
@@ -49,6 +51,8 @@ public class ShapeDataDrawer : Editor
 
         // Vẽ mảng sprite
         EditorGUILayout.PropertyField(imagePiecesProp, new GUIContent("Image Pieces"), true);
+
+        EditorGUILayout.PropertyField(patternProp, new GUIContent("Match Pattern"));
 
         if (IsValid())
         {

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static ShapeData;
 
 public class ShapeImageRender : MonoBehaviour
 {

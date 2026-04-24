@@ -15,10 +15,17 @@ MonoBehaviour:
   dragMode: 0
   axisX: 0
   axisY: 5
-  shapePrefab: {fileID: 0}
-  imagePieces: []
+  shapePrefab: {fileID: 9097114825805624393, guid: b47671266b5094149b370c4e0d6cca74, type: 3}
+  imagePieces:
+  - {fileID: -1104930100, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: -2100244296, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: -1945628356, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: -157209069, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: 86802914, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
+  - {fileID: -1022565501, guid: 35e2480ef5521c24c842b579ba8789ff, type: 3}
   parentId: C
   indexId: 0
+  pattern: {fileID: 11400000, guid: 7994de0091af07341892a9b95ded4d48, type: 2}
   columns: 2
   rows: 3
   board:

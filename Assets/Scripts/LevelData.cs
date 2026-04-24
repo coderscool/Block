@@ -16,17 +16,7 @@ public class LevelData : ScriptableObject
 
     public ShapeData[] levelShapes;
 
-    [System.Serializable]
-    public class ShapeMatchPattern
-    {
-        public string name;
-        public List<Vector2Int> offsets = new List<Vector2Int>();
-        public int requiredUniqueBlocks = 2;
-    }
-
-    [Header("Patterns")]
-    public List<ShapeMatchPattern> patterns =
-        new List<ShapeMatchPattern>();
+    public ShapeMatchPattern[] patterns;
 
     [Header("Rewards")]
     public int goldReward = 10;

@@ -29,16 +29,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7c64bcd28cc95d74b98d503628cd4bb2, type: 2}
   - {fileID: 11400000, guid: feee268eb7d79b94c91285eb13b2bea8, type: 2}
   patterns:
-  - name: 3x3
-    offsets:
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 2, y: 0}
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
-    - {x: 2, y: 1}
-    - {x: 0, y: 2}
-    - {x: 1, y: 2}
-    - {x: 2, y: 2}
-    requiredUniqueBlocks: 9
+  - {fileID: 11400000, guid: cbb7a9174278f9844a67ce69036beb69, type: 2}
   goldReward: 10

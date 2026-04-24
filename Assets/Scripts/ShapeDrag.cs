@@ -96,7 +96,14 @@ public class ShapeDrag : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Kinematic;
 
         GridManager.instance.LogParentId();
-        GridManager.instance.CheckPattern();
+        if (shapeRender != null && shapeRender.shapeData != null && shapeRender.shapeData.pattern != null)
+        {
+            GridManager.instance.CheckPattern(shapeRender.shapeData.pattern);
+        }
+        else
+        {
+            GridManager.instance.CheckPattern();
+        }
     }
 
     void SnapAtCurrentPosition()

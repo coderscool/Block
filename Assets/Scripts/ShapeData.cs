@@ -22,6 +22,8 @@ public class ShapeData : ScriptableObject
     public string parentId;
     public int indexId;
 
+    public ShapeMatchPattern pattern;
+
     [System.Serializable]
     public class Row
     {

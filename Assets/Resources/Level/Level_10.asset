@@ -30,6 +30,7 @@ MonoBehaviour:
   blockMatchTarget: 5
   time: 60
   levelShapes:
-  - {fileID: 11400000, guid: 7c64bcd28cc95d74b98d503628cd4bb2, type: 2}
+  - {fileID: 11400000, guid: 3f72789370083a244bcea27c68711c80, type: 2}
+  - {fileID: 11400000, guid: 0d647353bdd814e47a7d54d5a7a47095, type: 2}
   patterns: []
   goldReward: 10

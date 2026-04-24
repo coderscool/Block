@@ -15,8 +15,10 @@ MonoBehaviour:
   dragMode: 0
   axisX: 3
   axisY: 1
-  shapePrefab: {fileID: 189319455232733731, guid: e9c8a935c23815746b11fdf3b591718d, type: 3}
-  imagePieces: []
+  shapePrefab: {fileID: 9097114825805624393, guid: b47671266b5094149b370c4e0d6cca74, type: 3}
+  imagePieces:
+  - {fileID: 413479866, guid: 083b01141f4f3434f897cfb2bf1b8a11, type: 3}
+  - {fileID: 101401203, guid: 083b01141f4f3434f897cfb2bf1b8a11, type: 3}
   parentId: C
   indexId: 1
   columns: 2

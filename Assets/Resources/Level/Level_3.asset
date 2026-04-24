@@ -35,10 +35,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aa56fa2ed18f9f6469ed8d8db6fa773a, type: 2}
   - {fileID: 11400000, guid: 25728f55e0735cc4483e0fe85c632cc9, type: 2}
   patterns:
-  - name: 2x2
-    offsets:
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
-    requiredUniqueBlocks: 4
+  - {fileID: 11400000, guid: 63e2695cf6f39194aa0acb99173b718c, type: 2}
+  goldReward: 10

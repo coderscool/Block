@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Shape5_1_2
   m_EditorClassIdentifier: 
   dragMode: 0
-  axisX: 4
+  axisX: 5
   axisY: 5
-  shapePrefab: {fileID: 0}
-  imagePieces: []
+  shapePrefab: {fileID: 9097114825805624393, guid: b47671266b5094149b370c4e0d6cca74, type: 3}
+  imagePieces:
+  - {fileID: 189604344, guid: e5ee34a290c7d8449b911fdfb34aab15, type: 3}
+  - {fileID: -156336142, guid: e5ee34a290c7d8449b911fdfb34aab15, type: 3}
+  - {fileID: 2049564149, guid: e5ee34a290c7d8449b911fdfb34aab15, type: 3}
   parentId: A
   indexId: 1
   columns: 1

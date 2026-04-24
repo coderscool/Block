@@ -27,7 +27,7 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector2Int, GridCell> gridDict =
         new Dictionary<Vector2Int, GridCell>();
 
-    public List<LevelData.ShapeMatchPattern> patterns;
+    public ShapeMatchPattern[] patterns;
 
     // ===============================
     public void Init(LevelData level)
@@ -259,7 +259,30 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    bool MatchShape(LevelData.ShapeMatchPattern pattern, int startX, int startY)
+    public void CheckPattern(ShapeMatchPattern pattern)
+    {
+        if (pattern == null)
+        {
+            CheckPattern();
+            return;
+        }
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (MatchShape(pattern, x, y))
+                {
+                    ClearMatched(pattern, x, y);
+
+                    if (LevelManager.Instance != null)
+                        LevelManager.Instance.OnBlockMatched(1);
+                }
+            }
+        }
+    }
+
+    bool MatchShape(ShapeMatchPattern pattern, int startX, int startY)
     {
         HashSet<Block> uniqueBlocks = new HashSet<Block>();
         List<int> indexs = new List<int>();
@@ -312,7 +335,7 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
-    void ClearMatched(LevelData.ShapeMatchPattern pattern, int startX, int startY)
+    void ClearMatched(ShapeMatchPattern pattern, int startX, int startY)
     {
         HashSet<Block> destroyList = new HashSet<Block>();
 

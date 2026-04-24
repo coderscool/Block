@@ -10,9 +10,11 @@ public class LevelManager : MonoBehaviour
     public LevelData[] levels;
     public GameObject passLevel;
     public GameObject failLevel;
+    public GameObject reloadLevel;
     //public List<ShapeImageRenderer> imageRenderer;
 
     public TMP_Text levelText;
+    public TMP_Text levelGoldText;
 
     int currentLevel = 0;
 
@@ -35,6 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         passLevel.SetActive(false);
         failLevel.SetActive(false);
+        reloadLevel.SetActive(false);
 
         if (PlayerData.Instance == null)
         {
@@ -134,6 +137,17 @@ public class LevelManager : MonoBehaviour
         if (PlayerData.Instance != null && reward > 0)
             PlayerData.Instance.AddGold(reward);
 
+        if (levelGoldText != null)
+        {
+            levelGoldText.text = reward.ToString();
+        }
+
+        CountdownTimer timer = FindObjectOfType<CountdownTimer>();
+        if (timer != null)
+        {
+            timer.isRunning = false;
+        }
+
         passLevel.SetActive(true);
     }
 
@@ -153,9 +167,35 @@ public class LevelManager : MonoBehaviour
         failLevel.SetActive(true);
     }
 
-    public void ReloadLevel()
+    public void RetryLevel()
     {
         LoadLevel(currentLevel);
         failLevel.SetActive(false);
+    }
+
+    public void ResetMenu()
+    {
+        CountdownTimer timer = FindObjectOfType<CountdownTimer>();
+        if (timer != null)
+        {
+            timer.isRunning = false;
+        }
+        reloadLevel.SetActive(true);
+    }
+
+    public void Exit()
+    {
+        CountdownTimer timer = FindObjectOfType<CountdownTimer>();
+        if (timer != null)
+        {
+            timer.isRunning = true;
+        }
+        reloadLevel.SetActive(false);
+    }
+
+    public void ReloadLevel()
+    {
+        LoadLevel(currentLevel);
+        reloadLevel.SetActive(false);
     }
 }
