@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: 101401203, guid: 083b01141f4f3434f897cfb2bf1b8a11, type: 3}
   parentId: C
   indexId: 1
+  pattern: {fileID: 11400000, guid: 63e2695cf6f39194aa0acb99173b718c, type: 2}
   columns: 2
   rows: 1
   board:

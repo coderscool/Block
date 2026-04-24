@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public LevelData[] levels;
     public GameObject passLevel;
     public GameObject failLevel;
-    public GameObject reloadLevel;
+    //public GameObject reloadLevel;
     //public List<ShapeImageRenderer> imageRenderer;
 
     public TMP_Text levelText;
@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         passLevel.SetActive(false);
         failLevel.SetActive(false);
-        reloadLevel.SetActive(false);
+        //reloadLevel.SetActive(false);
 
         if (PlayerData.Instance == null)
         {
@@ -180,7 +180,7 @@ public class LevelManager : MonoBehaviour
         {
             timer.isRunning = false;
         }
-        reloadLevel.SetActive(true);
+        //reloadLevel.SetActive(true);
     }
 
     public void Exit()
@@ -190,12 +190,12 @@ public class LevelManager : MonoBehaviour
         {
             timer.isRunning = true;
         }
-        reloadLevel.SetActive(false);
+        //reloadLevel.SetActive(false);
     }
 
     public void ReloadLevel()
     {
         LoadLevel(currentLevel);
-        reloadLevel.SetActive(false);
+        //reloadLevel.SetActive(false);
     }
 }

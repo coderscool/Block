@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77fc0a0353cb52d47aa5394d0498c8f6, type: 3}
   m_Name: Shape3_1_1
   m_EditorClassIdentifier: 
+  dragMode: 0
   axisX: 0
   axisY: 0
   shapePrefab: {fileID: 9097114825805624393, guid: b47671266b5094149b370c4e0d6cca74, type: 3}
@@ -20,6 +21,7 @@ MonoBehaviour:
   - {fileID: -631714097, guid: feff612920d685e49aff59b2449c0909, type: 3}
   parentId: A
   indexId: 0
+  pattern: {fileID: 11400000, guid: 63e2695cf6f39194aa0acb99173b718c, type: 2}
   columns: 1
   rows: 2
   board:
